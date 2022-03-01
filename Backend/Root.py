@@ -1,10 +1,8 @@
 #imports for the application file
-from matplotlib.pyplot import table
 from Backend.Gantt_Shapes import *
 from Backend.Gantt_Tables import *
 from Backend.Util_Functions import *
-from tkinter.messagebox import showerror,showwarning
-from tkinter import Tk
+from tkinter.messagebox import showerror
 import pandas as pd
 import numpy as np
 import pptx

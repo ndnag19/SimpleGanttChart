@@ -1,7 +1,6 @@
 from tkinter import *
 from tkinter import filedialog
 from tkinter.messagebox import showinfo,showerror
-import pptx
 import subprocess,os,platform
 
 # Opens dialog dialog boxes for PowerPoint Presentation files
@@ -21,7 +20,7 @@ def browseDataButton(root: Tk,textbox: Entry):
     textbox.insert(0,root.filename)
 
 # Save dialog boxes for Presentation files
-def browseSaveButton(root: Tk,textbox: Entry, prs: pptx.Presentation):
+def browseSaveButton(root: Tk,textbox: Entry, prs):
     root.filename = filedialog.asksaveasfilename(defaultextension=".*",title="Save Presentation",
     filetypes=(("PowerPoint Files","*.pptx"),("PowerPoint Legacy Files","*.ppt"),
     ("PowerPoint Macro Enabled Files","*.pptm"),("All Files","*.*")))
