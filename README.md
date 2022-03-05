@@ -48,4 +48,4 @@ Alternatively, you can follow these two steps to run the application
 
 ![open_powershell](https://user-images.githubusercontent.com/39146876/156887568-f964d2fe-e0ef-4bce-9dea-1d82aef1c1e9.png)
 
-2. Run the command ``` python main.py```
+2. Run the following command on terminal ``` python main.py```
