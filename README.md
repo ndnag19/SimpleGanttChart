@@ -1,4 +1,4 @@
-## Introduction
+### Introduction
 
 SimpleGanttChart is a Python GUI tool built to automate creation of beautiful Gantt Chart Slides in PowerPoint using PowerPoint Autoshapes. 
 
@@ -32,3 +32,18 @@ To install these dependencies. Open terminal and paste the following lines.
 ```markdown
     pip install openpyxl
 ```
+### Get started with SimpleGanttChart
+
+To run SimpleGanttChart tool first you need to download it from [SimpleGanttChart Repository](https://github.com/ndnag19/SimpleGanttChart). Follow these steps to download code as .zip file.
+1. Visit [SimpleGanttChart Repository](https://github.com/ndnag19/SimpleGanttChart) and click on Code.
+
+2. Download the code as .zip file
+
+3. Extract the .zip file to desired location
+
+
+Running SimpleGanttChart is as simple double clicking the **main.py** file in the SimpleGanttChart folder. 
+
+Alternatively, you can follow these two steps to run the application
+1. Open terminal in the SimpleGanttChart folder (make sure you can see **main.py** in this folder). On Windows, hold _SHIFT_ key and _RIGHT MOUSE CLICK_. A window will pop up, click on _Open PowerShell window here_
+2. Run the command ``` python main.py```
