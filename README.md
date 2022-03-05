@@ -44,8 +44,6 @@ To run SimpleGanttChart tool first you need to download it from [SimpleGanttChar
 Running SimpleGanttChart is as simple double clicking the **main.py** file in the SimpleGanttChart folder. 
 
 Alternatively, you can follow these two steps to run the application
-1. Open terminal in the SimpleGanttChart folder (make sure you can see **main.py** in this folder). On Windows, hold _SHIFT_ key and _RIGHT MOUSE CLICK_. A window will pop up, click on _Open PowerShell window here_
-
+- Open terminal in the SimpleGanttChart folder (make sure you can see **main.py** in this folder). On Windows, hold _SHIFT_ key and _RIGHT MOUSE CLICK_. A window will pop up, click on _Open PowerShell window here_
 ![open_powershell](https://user-images.githubusercontent.com/39146876/156887568-f964d2fe-e0ef-4bce-9dea-1d82aef1c1e9.png)
-
-2. Run the following command on terminal ``` python main.py```
+- Run the following command on terminal ``` python main.py```
