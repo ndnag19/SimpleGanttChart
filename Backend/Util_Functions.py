@@ -23,7 +23,7 @@ def addMonths(start_date: pd._libs.tslibs.timestamps.Timestamp,delta_period: int
     return end_date
 
 #Save Gantt Chart
-def saveGantt(prs: pptx.presentation.Presentation,path: str,name: str):
+def saveGantt(prs,path: str,name: str):
     prs.save(path+name+".pptx")
     return f"{name}.pptx is successfully saved at {path}"
 

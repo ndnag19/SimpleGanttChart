@@ -2,6 +2,16 @@ from tkinter import *
 from tkinter import filedialog
 from tkinter.messagebox import showinfo,showerror
 import subprocess,os,platform
+from pptx.text.fonts import FontFiles
+
+# Generates a global list of fonts available on the system
+def fontList():
+    font_keys = list(FontFiles._installed_fonts().keys())
+    fonts = []
+    for i in font_keys:
+        fonts.append(str(i[0]))
+    return fonts
+
 
 # Opens dialog dialog boxes for PowerPoint Presentation files
 def browsePowerPointButton(root: Tk,textbox: Entry):

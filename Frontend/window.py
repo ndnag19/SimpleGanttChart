@@ -8,7 +8,7 @@ from Frontend.commands import *
 from Frontend.object_start_screen import *
 
 class MainWindow:
-    def __init__(self):
+    def __init__(self,font_list: list):
         super().__init__()
         # Locates the assests folder and stores it in ASSETS_PATH
         self.OUTPUT_PATH = Path(__file__).parent
@@ -25,7 +25,7 @@ class MainWindow:
         #Adding Frames to the window
         self.myStartScreen = StartScreenFrame(self.root,controller=self)
         self.myDataSetup = DataSetupFrame(self.root,controller=self)
-        self.myGanttProperties = GanttPropertiesFrame(self.root,controller=self)
+        self.myGanttProperties = GanttPropertiesFrame(self.root,controller=self,font_list=font_list)
         self.mySaveScreen = SaveScreenFrame(self.root,controller=self)
         # Setting Start Screen as the first framee
         showFrame(self.myStartScreen.frame)

@@ -2,6 +2,7 @@
 from pathlib import Path
 from tkinter.ttk import Frame, Button, Combobox, Entry
 from tkinter import Tk, Canvas, PhotoImage, colorchooser
+from ttkwidgets.autocomplete import AutocompleteCombobox
 import PIL.Image
 import PIL.ImageTk
 import PIL.ImageOps
@@ -11,7 +12,7 @@ from Frontend.strings import *
 from Backend.Root import *
 
 class GanttPropertiesFrame():
-    def __init__(self,root: Tk,controller):
+    def __init__(self,root: Tk,controller,font_list):
         super().__init__()
         
         # Locates the assests folder and stores it in ASSETS_PATH
@@ -126,13 +127,6 @@ class GanttPropertiesFrame():
         self.canvas.create_text(710,430,anchor="nw",text="Font Color\t",fill="#800000",font=("Roboto",14 * -1,))
         self.canvas.create_text(840,430,anchor="nw",text="Font Size\t",fill="#800000",font=("Roboto",14 * -1,))
         
-        self.create_shape_type_selectors()
-        self.create_shape_color_selectors()
-        self.create_font_color_selectors()
-        self.create_font_size_selectors()
-        self.create_font_property_selectors()
-        self.create_font_style_selectors()
-
         # Set default shape color
         self.str_task1_shape_color="#5D5C5B"
         self.str_task2_shape_color="#045D5D"
@@ -146,6 +140,15 @@ class GanttPropertiesFrame():
         self.str_task3_font_color="#000000"
         self.str_task4_font_color="#000000"
         self.str_task5_font_color="#000000"
+
+        # Creating opbjects
+        self.create_shape_type_selectors()
+        self.create_shape_color_selectors()
+        self.create_font_color_selectors()
+        self.create_font_size_selectors()
+        self.create_font_property_selectors()
+        # self.create_font_style_selectors()
+        self.create_font_name_selectors(font_list=font_list)
 
         # Button to go to next frame
         self.button_next_img = PhotoImage(
@@ -413,7 +416,42 @@ class GanttPropertiesFrame():
         self.entry_font_name_task_5 = Entry(self.frame, bd=0, bg="#ECECEC", highlightthickness=2,width=15,font=("RobotoRoman",10))
         self.canvas.create_window(580,575,anchor="nw",window=self.entry_font_name_task_5)
         self.entry_font_name_task_5.insert(0,"Arial")
+    
+    # Combo boxes for font style
+    def create_font_name_selectors(self,font_list: list):
+        # Comboboxes for font style for each task level
+        self.entry_font_name_list = font_list
 
+        # Task 1 entry_font_name
+        self.entry_font_name_task_1_selection = StringVar()
+        self.entry_font_name_task_1 = AutocompleteCombobox(self.canvas,textvariable= self.entry_font_name_task_1_selection, value=self.entry_font_name_list, width= 15)
+        self.entry_font_name_task_1.current(5)
+        self.canvas.create_window(580,455,anchor="nw",window=self.entry_font_name_task_1)
+
+        # Task 2 entry_font_name
+        self.entry_font_name_task_2_selection = StringVar()
+        self.entry_font_name_task_2 = AutocompleteCombobox(self.canvas,textvariable= self.entry_font_name_task_2_selection, value=self.entry_font_name_list, width= 15)
+        self.entry_font_name_task_2.current(5)
+        self.canvas.create_window(580,485,anchor="nw",window=self.entry_font_name_task_2)
+
+        # Task 3 entry_font_name
+        self.entry_font_name_task_3_selection = StringVar()
+        self.entry_font_name_task_3 = AutocompleteCombobox(self.canvas,textvariable= self.entry_font_name_task_3_selection, value=self.entry_font_name_list, width= 15)
+        self.entry_font_name_task_3.current(5)
+        self.canvas.create_window(580,515,anchor="nw",window=self.entry_font_name_task_3)
+
+        # Task 4 entry_font_name
+        self.entry_font_name_task_4_selection = StringVar()
+        self.entry_font_name_task_4 = AutocompleteCombobox(self.canvas,textvariable= self.entry_font_name_task_4_selection, value=self.entry_font_name_list, width= 15)
+        self.entry_font_name_task_4.current(5)
+        self.canvas.create_window(580,545,anchor="nw",window=self.entry_font_name_task_4)
+
+        # Task 5 entry_font_name
+        self.entry_font_name_task_5_selection = StringVar()
+        self.entry_font_name_task_5 = AutocompleteCombobox(self.canvas,textvariable= self.entry_font_name_task_5_selection, value=self.entry_font_name_list, width= 15)
+        self.entry_font_name_task_5.current(5)
+        self.canvas.create_window(580,575,anchor="nw",window=self.entry_font_name_task_5)
+    
     def create_font_property_selectors(self):
         self.font_property_list=[
             "Regular",
@@ -489,11 +527,11 @@ class GanttPropertiesFrame():
             self.font_property_task_5_selection.get()
         ]
         self.font_style_tl = [
-            self.entry_font_size_task_1.get(),
-            self.entry_font_size_task_2.get(),
-            self.entry_font_size_task_3.get(),
-            self.entry_font_size_task_4.get(),
-            self.entry_font_size_task_5.get()
+            self.entry_font_name_task_1_selection.get(),
+            self.entry_font_name_task_2_selection.get(),
+            self.entry_font_name_task_3_selection.get(),
+            self.entry_font_name_task_4_selection.get(),
+            self.entry_font_name_task_5_selection.get()
         ]
         self.font_color_tl = [
             self.str_task1_font_color,
