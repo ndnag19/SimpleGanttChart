@@ -10,6 +10,7 @@ from tkinter.messagebox import showerror
 from Frontend.commands import *
 from Frontend.strings import *
 from Backend.Root import *
+from Backend.Custom_Errors import *
 
 class GanttPropertiesFrame():
     def __init__(self,root: Tk,controller,font_list):

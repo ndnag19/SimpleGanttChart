@@ -1,11 +1,13 @@
 # Class for Start Screen Frame
 
+from importlib.metadata import PackageNotFoundError
 from pathlib import Path
 from tkinter.ttk import Frame, Entry, Button, Combobox
 from tkinter import Tk, Canvas, PhotoImage
 from tkinter.messagebox import showwarning
 import pptx
 import openpyxl
+from openpyxl.utils.exceptions import InvalidFileException
 from Frontend.commands import *
 from Frontend.strings import *
 from Backend.Util_Functions import *
@@ -177,6 +179,19 @@ class StartScreenFrame():
         prs_path = str(self.get_presentation_path())
         try:
             self.ganttPrs = pptx.Presentation(prs_path)
+        except PermissionError:
+            showerror("Failed to Load Presenation",
+            "Please make sure the presentation you are trying to open is not currently in use")
+        except KeyError:
+            showerror("Invalid File Format",
+            "Please use .pptx or .pptm powerpoint files. If you are using .ppt file please save it as .pptx and then import in this tool")
+        except pptx.exceptions.PackageNotFoundError:
+            showerror("Presentation not selected, modifed or removed",
+            "Please select a presentation by cicking browse")
+        except pptx.exceptions.PythonPptxError:
+            showerror("Presentation File Error",
+            "An unexpected error occured while opening the file, please make sure you are using a powerpoint presentation file which is not corrupted.Try saving the file in .pptx format with a different name and try again")
+        try:
             if ".csv" in data_path:
                 self.ganttData = importDataCsv(data_path)
             else:
@@ -186,7 +201,7 @@ class StartScreenFrame():
             showFrame(self.controller.myDataSetup.frame)
             self.controller.myDataSetup.drop_down_columns(self.ganttData_column_names,self.ganttData)
         except:
-            showwarning("Data or Presentation Not Selected","Please selet path for data and presentation by clicking on browse")
+            showwarning("Data Not Selected","Please selet path for data by clicking on browse")
 
 # Function to show dropdown based on the type of data selected in the browse data
     def self_browse_data_button(self):
@@ -195,7 +210,14 @@ class StartScreenFrame():
         if ".csv" in data_path:
             pass
         else:
-            wkbook = openpyxl.load_workbook(data_path)
+            try:
+                wkbook = openpyxl.load_workbook(data_path)
+            except FileNotFoundError:
+                showerror("Data Not Found",
+                "No such file or directory exists. Please select data by clicking browse!")
+            except InvalidFileException:
+                showerror("Data File Format Unsupported",
+                "Please use .xlsx and .xlsm files. If you are using other excel formats please convert them to .xlsx or .xlsm.")
             self.sheet_names=wkbook.sheetnames
             # Dropdown menu with the names of the sheets
             self.selected_sheet_name = StringVar()

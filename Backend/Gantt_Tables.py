@@ -6,6 +6,7 @@ from pptx.enum.dml import MSO_THEME_COLOR
 from pptx.enum.text import *
 from dateutil.relativedelta import relativedelta
 import pptx
+from tkinter.messagebox import showerror
 
 #Create a Table
 def createTable(rows: int,cols: int, left: float,top: float,width: float,height: float, slide):
@@ -38,7 +39,8 @@ font_size=12,font_color="#FFFFFF",font_name="Arial",fill_color_year=None,fill_co
                     cell.fill.solid()
                     cell.fill.fore_color.rgb = RGBColor.from_string(fill_color_year.lstrip('#'))
                 except:
-                    print("Enter a valid hex color code. Ex. #FFFF00")
+                    showerror("Invalid Fill Color",
+                    "Enter a valid hex color code. Ex. #FFFF00")
             
             cell.text_frame.clear()
 
@@ -61,7 +63,8 @@ font_size=12,font_color="#FFFFFF",font_name="Arial",fill_color_year=None,fill_co
             try: 
                 run.font.color.rgb = RGBColor.from_string(font_color.lstrip('#'))
             except:
-                print("Enter a valid hex color code. Ex. #FFFF00")
+                showerror("Invalid Font Color",
+                    "Enter a valid hex color code. Ex. #FFFF00")
                         
             current_year=new_current_year   
         if i==0:
@@ -76,7 +79,8 @@ font_size=12,font_color="#FFFFFF",font_name="Arial",fill_color_year=None,fill_co
                     cell.fill.solid()
                     cell.fill.fore_color.rgb = RGBColor.from_string(fill_color_year.lstrip('#'))
                 except:
-                    print("Enter a valid hex color code. Ex. #FFFF00")
+                    showerror("Invalid Fill Color",
+                    "Enter a valid hex color code. Ex. #FFFF00")
 
             p=cell.text_frame.paragraphs[0]
 
@@ -97,7 +101,8 @@ font_size=12,font_color="#FFFFFF",font_name="Arial",fill_color_year=None,fill_co
                 cell.fill.solid() 
                 run.font.color.rgb = RGBColor.from_string(font_color.lstrip('#'))
             except:
-                print("Enter a valid hex color code. Ex. #FFFF00")
+                showerror("Invalid Font Color",
+                    "Enter a valid hex color code. Ex. #FFFF00")
                        
         if i==no_of_months-1:
             cell = table.cell(0,index1)
@@ -113,7 +118,9 @@ font_size=12,font_color="#FFFFFF",font_name="Arial",fill_color_year=None,fill_co
             try:
                 cell.fill.fore_color.rgb = RGBColor.from_string(fill_color_month.lstrip('#'))
             except:
-                print("Enter a valid hex color code. Ex. #FFFF00")
+                showerror("Invalid Fill Color",
+                    "Enter a valid hex color code. Ex. #FFFF00")
+        
         cell.text_frame.clear()
         p=cell.text_frame.paragraphs[0]
 
@@ -134,6 +141,7 @@ font_size=12,font_color="#FFFFFF",font_name="Arial",fill_color_year=None,fill_co
         try: 
             run.font.color.rgb = RGBColor.from_string(font_color.lstrip('#'))
         except:
-            print("Enter a valid hex color code. Ex. #FFFF00")
+            showerror("Invalid Font Color",
+                    "Enter a valid hex color code. Ex. #FFFF00")
         
         current_month=current_month+relativedelta(months=1)

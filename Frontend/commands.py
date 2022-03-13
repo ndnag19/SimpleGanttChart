@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import filedialog
-from tkinter.messagebox import showinfo,showerror
+from tkinter.messagebox import showinfo, showerror, showwarning
 import subprocess,os,platform
 from pptx.text.fonts import FontFiles
 
@@ -16,7 +16,7 @@ def fontList():
 # Opens dialog dialog boxes for PowerPoint Presentation files
 def browsePowerPointButton(root: Tk,textbox: Entry):
     root.filename = filedialog.askopenfilename(title="Select a powerpoint presentation",
-    filetypes=(("PowerPoint Files","*.pptx"),("PowerPoint Legacy Files","*.ppt"),
+    filetypes=(("PowerPoint Files","*.pptx"),
     ("PowerPoint Macro Enabled Files","*.pptm"),("All Files","*.*")))
     textbox.delete(0,END)
     textbox.insert(0,root.filename)
@@ -24,7 +24,7 @@ def browsePowerPointButton(root: Tk,textbox: Entry):
 # Opens dialog boxes for Excel/Csv data files
 def browseDataButton(root: Tk,textbox: Entry):
     root.filename = filedialog.askopenfilename(title="Select Data",
-    filetypes=(("Excel Files","*.xlsx"),("Comma Seperated Values","*.csv"),("Excel Legacy Files","*.xls"),
+    filetypes=(("Excel Files","*.xlsx"),("Comma Seperated Values","*.csv"),
     ("Excel Macro Enabled Files","*.xlsm"),("All Files","*.*")))
     textbox.delete(0,END)
     textbox.insert(0,root.filename)
@@ -32,12 +32,16 @@ def browseDataButton(root: Tk,textbox: Entry):
 # Save dialog boxes for Presentation files
 def browseSaveButton(root: Tk,textbox: Entry, prs):
     root.filename = filedialog.asksaveasfilename(defaultextension=".*",title="Save Presentation",
-    filetypes=(("PowerPoint Files","*.pptx"),("PowerPoint Legacy Files","*.ppt"),
+    filetypes=(("PowerPoint Files","*.pptx"),
     ("PowerPoint Macro Enabled Files","*.pptm"),("All Files","*.*")))
     textbox.delete(0,END)
     textbox.insert(0,root.filename)
-    prs.save(textbox.get())
-    showinfo("Presentation saved successfully",f"Your file is saved successfully at {textbox.get()}")
+    try:
+        prs.save(textbox.get())
+        showinfo("Presentation saved successfully",f"Your file is saved successfully at {textbox.get()}")
+    except:
+        showwarning("Saving Unsuccessful!",
+        "Please close the powerpoint file before saving.")
 
 # Changes the frame useful for navigation
 def showFrame(frame: Frame):
