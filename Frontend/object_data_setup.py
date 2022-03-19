@@ -1,4 +1,10 @@
 # Class for setting up the imported data
+# List of Changes in Mind:
+'''
+1. Function Name/Slide Title Selector
+2. Change show next button behaviour
+'''
+
 from pathlib import Path
 from tkinter.ttk import Frame, Button, Combobox, Treeview
 from tkinter import Tk, Canvas, PhotoImage, Scrollbar

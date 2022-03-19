@@ -1,8 +1,10 @@
 from tkinter import *
-from tkinter import filedialog
+from tkinter import filedialog,Toplevel
 from tkinter.messagebox import showinfo, showerror, showwarning
+from ttkwidgets.font import FontFamilyDropdown,FontPropertiesFrame,FontSizeDropdown
 import subprocess,os,platform
 from pptx.text.fonts import FontFiles
+from pptx import Presentation
 
 # Generates a global list of fonts available on the system
 def fontList():
@@ -12,6 +14,13 @@ def fontList():
         fonts.append(str(i[0]))
     return fonts
 
+# Generates a list of slide_layouts from any given presentation
+def slideLayoutList(prs: Presentation):
+    slide_layouts = prs.slide_layouts
+    names = []
+    for slide in slide_layouts:
+        names.append(slide.name)
+    return names
 
 # Opens dialog dialog boxes for PowerPoint Presentation files
 def browsePowerPointButton(root: Tk,textbox: Entry):
@@ -58,3 +67,6 @@ def openLinks(link: str):
             subprocess.call(("xdg-open",link))
         except OSError:
             showerror("OS Error",f"Please visit the page at {link}")
+
+# Creates a top level frame with
+

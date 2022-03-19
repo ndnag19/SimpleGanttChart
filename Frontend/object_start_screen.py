@@ -1,6 +1,5 @@
 # Class for Start Screen Frame
 
-from importlib.metadata import PackageNotFoundError
 from pathlib import Path
 from tkinter.ttk import Frame, Entry, Button, Combobox
 from tkinter import Tk, Canvas, PhotoImage
@@ -179,6 +178,7 @@ class StartScreenFrame():
         prs_path = str(self.get_presentation_path())
         try:
             self.ganttPrs = pptx.Presentation(prs_path)
+            self.slide_layout_list = slideLayoutList(self.ganttPrs)
         except PermissionError:
             showerror("Failed to Load Presenation",
             "Please make sure the presentation you are trying to open is not currently in use")

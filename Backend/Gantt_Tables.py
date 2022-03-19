@@ -1,4 +1,10 @@
 #imports for the functions defined here
+#Creating Option for other tables
+'''
+1. Semi-Annual Table
+2. Quarterly Table
+'''
+
 import pandas as pd
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor

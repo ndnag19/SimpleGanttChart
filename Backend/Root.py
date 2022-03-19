@@ -1,4 +1,15 @@
 #imports for the application file
+# Work to improve the code with additional tables and functionality
+'''
+Things in Mind:
+1. Adding Slide Title
+2. Adding Legend to top right
+3. Adding Task Timeline Number If Possible
+4. Adding Condition to table type based on selection
+5. Changing Condition to Create a New Slide if there is change in the Slide Title
+6. Change show previous slide function
+'''
+
 from Backend.Gantt_Shapes import *
 from Backend.Gantt_Tables import *
 from Backend.Util_Functions import *

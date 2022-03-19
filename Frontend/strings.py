@@ -13,6 +13,7 @@ str_browse_button_img_name="button_browse.png"
 str_next_button_img_name="button_next.png"
 str_previous_button_img_name="button_Previous.png"
 str_gantt_chart_style_1="gantt_chart_style_1.png"
+str_timeline_style_1="timeline_style_1.PNG"
 
 # StartScreen Frame Strings
 str_select_powerpoint_file = "Select ProwerPoint Presentation:"
@@ -27,3 +28,20 @@ str_twitter = "https://twitter.com/ndnag19"
 str_linkedInlogo = "LI-In-Bug.png"
 str_githublogo = "GitHub-Mark-Light-64px.png"
 str_twitterlogo = "2021 Twitter logo - white.png"
+
+# Months Dictionary
+
+months_dict = {
+    "January" : 1,
+    "February" : 2,
+    "March" : 3,
+    "April" : 4,
+    "May" : 5,
+    "June" : 6,
+    "July" : 7,
+    "August" : 8,
+    "September" : 9,
+    "October" : 10,
+    "November" : 11,
+    "December" : 12
+}

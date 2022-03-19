@@ -1,4 +1,11 @@
 # Class for setting up the Gantt Properties
+# Changes in Mind:
+'''
+1. Move timeline properties to object_timeline_properties
+2. Add option for shape outline color
+3. Try to make layout better, change the preview tab to a image with bigger shapes and text
+'''
+
 from pathlib import Path
 from tkinter.ttk import Frame, Button, Combobox, Entry
 from tkinter import Tk, Canvas, PhotoImage, colorchooser

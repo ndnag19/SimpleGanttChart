@@ -1,3 +1,8 @@
+# Class which creates the whole application
+# Changes to be made
+'''
+1. Add New Timeline Properties frame and pass controller to it
+'''
 from tkinter import *
 from Frontend.object_save_screen import SaveScreenFrame
 from Frontend.object_start_screen import *
