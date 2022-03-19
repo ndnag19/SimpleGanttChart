@@ -67,55 +67,24 @@ class GanttPropertiesFrame():
         # Fill, font color for all params
         self.font_properties = ("Roboto",12 * -1)
         self.fill_color = "#000000"
-        # Timeline Table Properties- Left of reference image
-        self.canvas.create_text(68,80,anchor="nw",text="Timeline Properties",fill="#008080",font=("Roboto",14 * -1,))
-        self.canvas.create_text(68,110,anchor="nw",text="Timeline Left\t:",fill=self.fill_color,font=self.font_properties)
-        self.canvas.create_text(68,140,anchor="nw",text="Timeline Top\t:",fill=self.fill_color,font=self.font_properties)
-        self.canvas.create_text(68,170,anchor="nw",text="Timeline Width\t:",fill=self.fill_color,font=self.font_properties)
-
-        # Entryboxes and Option menu for entering timeline properties
-        self.units_list=['inch','cm']
-        
-        # Timeline Left
-        self.entry_left = Entry(self.frame, bd=0, bg="#ECECEC", highlightthickness=2,width=5,font=("RobotoRoman",10))
-        self.canvas.create_window(190,108,anchor="nw",window=self.entry_left)
-        self.entry_left.insert(0,"2.0")
-        
-        self.option_left_selection = StringVar()
-        self.option_left = Combobox(self.canvas,textvariable= self.option_left_selection,value=self.units_list, width=5)
-        self.option_left.current(0)
-        self.option_left.state(["readonly"])
-        self.canvas.create_window(250,108,anchor="nw",window=self.option_left)
-        
-        # Timeline Top
-        self.entry_top = Entry(self.frame, bd=0, bg="#ECECEC", highlightthickness=2,width=5,font=("RobotoRoman",10))
-        self.canvas.create_window(190,138,anchor="nw",window=self.entry_top)
-        self.entry_top.insert(0,"1.0")
-        
-        self.option_top_selection = StringVar()
-        self.option_top = Combobox(self.canvas,textvariable= self.option_top_selection,value=self.units_list, width=5)
-        self.option_top.current(0)
-        self.option_top.state(["readonly"])
-        self.canvas.create_window(250,138,anchor="nw",window=self.option_top)
-        
-        # Timeline width
-        self.entry_width = Entry(self.frame, bd=0, bg="#ECECEC", highlightthickness=2,width=5,font=("RobotoRoman",10))
-        self.canvas.create_window(190,168,anchor="nw",window=self.entry_width)
-        self.entry_width.insert(0,"10.0")
-        
-        self.option_width_selection = StringVar()
-        self.option_width = Combobox(self.canvas,textvariable= self.option_width_selection,value=self.units_list, width=5)
-        self.option_width.current(0)
-        self.option_width.state(["readonly"])
-        self.canvas.create_window(250,168,anchor="nw",window=self.option_width)
 
         # Task alignment with respect to shape - Left of reference image 
-        self.canvas.create_text(68,220,anchor="nw",text="Task Level Alignment",fill="#008080",font=("Roboto",14 * -1,))
-        self.canvas.create_text(68,250,anchor="nw",text="Task Level 1\t:",fill=self.fill_color,font=self.font_properties)
-        self.canvas.create_text(68,280,anchor="nw",text="Task Level 2\t:",fill=self.fill_color,font=self.font_properties)
-        self.canvas.create_text(68,310,anchor="nw",text="Task Level 3\t:",fill=self.fill_color,font=self.font_properties)
-        self.canvas.create_text(68,340,anchor="nw",text="Task Level 4\t:",fill=self.fill_color,font=self.font_properties)
-        self.canvas.create_text(68,370,anchor="nw",text="Task Level 5\t:",fill=self.fill_color,font=self.font_properties)
+        self.canvas.create_text(68,80,anchor="nw",text="Task Shape Height",fill="#008080",font=("Roboto",14 * -1,))
+        self.canvas.create_text(68,100,anchor="nw",text="Task Level 1\t:",fill=self.fill_color,font=self.font_properties)
+        self.canvas.create_text(68,130,anchor="nw",text="Task Level 2\t:",fill=self.fill_color,font=self.font_properties)
+        self.canvas.create_text(68,160,anchor="nw",text="Task Level 3\t:",fill=self.fill_color,font=self.font_properties)
+        self.canvas.create_text(68,190,anchor="nw",text="Task Level 4\t:",fill=self.fill_color,font=self.font_properties)
+        self.canvas.create_text(68,220,anchor="nw",text="Task Level 5\t:",fill=self.fill_color,font=self.font_properties)
+
+        self.create_task_height_selectors()
+
+        # Task alignment with respect to shape - Left of reference image 
+        self.canvas.create_text(68,250,anchor="nw",text="Task Level Alignment",fill="#008080",font=("Roboto",14 * -1,))
+        self.canvas.create_text(68,280,anchor="nw",text="Task Level 1\t:",fill=self.fill_color,font=self.font_properties)
+        self.canvas.create_text(68,310,anchor="nw",text="Task Level 2\t:",fill=self.fill_color,font=self.font_properties)
+        self.canvas.create_text(68,340,anchor="nw",text="Task Level 3\t:",fill=self.fill_color,font=self.font_properties)
+        self.canvas.create_text(68,370,anchor="nw",text="Task Level 4\t:",fill=self.fill_color,font=self.font_properties)
+        self.canvas.create_text(68,400,anchor="nw",text="Task Level 5\t:",fill=self.fill_color,font=self.font_properties)
         
         self.create_alignment_selectors()
         
@@ -198,6 +167,64 @@ class GanttPropertiesFrame():
     def relative_to_assets(self,path: str) -> Path:
         return self.ASSETS_PATH / Path(path)
     
+    # ComboBox and Entry Box for task height selection
+    def create_task_height_selectors(self):
+        self.units_list=['inch','cm']
+        # Task level 1
+        self.task_height_task_1 = Entry(self.frame, bd=0, bg="#ECECEC", highlightthickness=2,width=5,font=("RobotoRoman",10))
+        self.canvas.create_window(190,100,anchor="nw",window=self.task_height_task_1)
+        self.task_height_task_1.insert(0,"0.2")
+        
+        self.option_task_height_task_1_selection = StringVar()
+        self.option_task_height_task_1 = Combobox(self.canvas,textvariable= self.option_task_height_task_1_selection,value=self.units_list, width=5)
+        self.option_task_height_task_1.current(0)
+        self.option_task_height_task_1.state(["readonly"])
+        self.canvas.create_window(250,100,anchor="nw",window=self.option_task_height_task_1)
+
+        # Task level 2
+        self.task_height_task_2 = Entry(self.frame, bd=0, bg="#ECECEC", highlightthickness=2,width=5,font=("RobotoRoman",10))
+        self.canvas.create_window(190,130,anchor="nw",window=self.task_height_task_2)
+        self.task_height_task_2.insert(0,"0.2")
+        
+        self.option_task_height_task_2_selection = StringVar()
+        self.option_task_height_task_2 = Combobox(self.canvas,textvariable= self.option_task_height_task_2_selection,value=self.units_list, width=5)
+        self.option_task_height_task_2.current(0)
+        self.option_task_height_task_2.state(["readonly"])
+        self.canvas.create_window(250,130,anchor="nw",window=self.option_task_height_task_2)
+
+        # Task level 3
+        self.task_height_task_3 = Entry(self.frame, bd=0, bg="#ECECEC", highlightthickness=2,width=5,font=("RobotoRoman",10))
+        self.canvas.create_window(190,160,anchor="nw",window=self.task_height_task_3)
+        self.task_height_task_3.insert(0,"0.2")
+        
+        self.option_task_height_task_3_selection = StringVar()
+        self.option_task_height_task_3 = Combobox(self.canvas,textvariable= self.option_task_height_task_3_selection,value=self.units_list, width=5)
+        self.option_task_height_task_3.current(0)
+        self.option_task_height_task_3.state(["readonly"])
+        self.canvas.create_window(250,160,anchor="nw",window=self.option_task_height_task_3)
+
+        # Task level 4
+        self.task_height_task_4 = Entry(self.frame, bd=0, bg="#ECECEC", highlightthickness=2,width=5,font=("RobotoRoman",10))
+        self.canvas.create_window(190,190,anchor="nw",window=self.task_height_task_4)
+        self.task_height_task_4.insert(0,"0.2")
+        
+        self.option_task_height_task_4_selection = StringVar()
+        self.option_task_height_task_4 = Combobox(self.canvas,textvariable= self.option_task_height_task_4_selection,value=self.units_list, width=5)
+        self.option_task_height_task_4.current(0)
+        self.option_task_height_task_4.state(["readonly"])
+        self.canvas.create_window(250,190,anchor="nw",window=self.option_task_height_task_4)
+
+        # Task level 5
+        self.task_height_task_5 = Entry(self.frame, bd=0, bg="#ECECEC", highlightthickness=2,width=5,font=("RobotoRoman",10))
+        self.canvas.create_window(190,220,anchor="nw",window=self.task_height_task_5)
+        self.task_height_task_5.insert(0,"0.2")
+        
+        self.option_task_height_task_5_selection = StringVar()
+        self.option_task_height_task_5 = Combobox(self.canvas,textvariable= self.option_task_height_task_5_selection,value=self.units_list, width=5)
+        self.option_task_height_task_5.current(0)
+        self.option_task_height_task_5.state(["readonly"])
+        self.canvas.create_window(250,220,anchor="nw",window=self.option_task_height_task_5)
+
     # Combo boxes for alignment
     def create_alignment_selectors(self):
         # Comboboxes for alignment for each task level
@@ -215,35 +242,35 @@ class GanttPropertiesFrame():
         self.alignment_task_1 = Combobox(self.canvas,textvariable= self.alignment_task_1_selection, value=self.alignment_list, width= 15)
         self.alignment_task_1.current(0)
         self.alignment_task_1.state(['readonly'])
-        self.canvas.create_window(190,248,anchor="nw",window=self.alignment_task_1)
+        self.canvas.create_window(190,280,anchor="nw",window=self.alignment_task_1)
 
         # Task 2 alignment
         self.alignment_task_2_selection = StringVar()
         self.alignment_task_2 = Combobox(self.canvas,textvariable= self.alignment_task_2_selection, value=self.alignment_list, width= 15)
         self.alignment_task_2.current(0)
         self.alignment_task_2.state(['readonly'])
-        self.canvas.create_window(190,278,anchor="nw",window=self.alignment_task_2)
+        self.canvas.create_window(190,310,anchor="nw",window=self.alignment_task_2)
 
         # Task 3 alignment
         self.alignment_task_3_selection = StringVar()
         self.alignment_task_3 = Combobox(self.canvas,textvariable= self.alignment_task_3_selection, value=self.alignment_list, width= 15)
         self.alignment_task_3.current(0)
         self.alignment_task_3.state(['readonly'])
-        self.canvas.create_window(190,308,anchor="nw",window=self.alignment_task_3)
+        self.canvas.create_window(190,340,anchor="nw",window=self.alignment_task_3)
 
         # Task 4 alignment
         self.alignment_task_4_selection = StringVar()
         self.alignment_task_4 = Combobox(self.canvas,textvariable= self.alignment_task_4_selection, value=self.alignment_list, width= 15)
         self.alignment_task_4.current(5)
         self.alignment_task_4.state(['readonly'])
-        self.canvas.create_window(190,338,anchor="nw",window=self.alignment_task_4)
+        self.canvas.create_window(190,370,anchor="nw",window=self.alignment_task_4)
 
         # Task 5 alignment
         self.alignment_task_5_selection = StringVar()
         self.alignment_task_5 = Combobox(self.canvas,textvariable= self.alignment_task_5_selection, value=self.alignment_list, width= 15)
         self.alignment_task_5.current(5)
         self.alignment_task_5.state(['readonly'])
-        self.canvas.create_window(190,368,anchor="nw",window=self.alignment_task_5)
+        self.canvas.create_window(190,400,anchor="nw",window=self.alignment_task_5)
 
     # Combo boxes for shape type
     def create_shape_type_selectors(self):

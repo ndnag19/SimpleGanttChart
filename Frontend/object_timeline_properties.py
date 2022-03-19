@@ -17,6 +17,9 @@ class TimelinePropertiesFrame():
     def __init__(self, root: Tk,controller,slide_layout_list):
         super().__init__()
 
+        # Set all the default values
+        self.__set_default_values()
+
         # Locates the assests folder and stores it in ASSETS_PATH
         self.OUTPUT_PATH = Path(__file__).parent
         self.ASSETS_PATH = self.OUTPUT_PATH / Path(str_assets)
@@ -232,11 +235,167 @@ class TimelinePropertiesFrame():
         # )
     # Function to package all the collected inputs
     def __selected_inputs(self)-> dict:
-        pass
+        timeline_properties_dict = {
+            "Left" : [self.entry_left.get(),self.option_left_selection.get()],
+            "Top" : [self.entry_top.get(),self.option_top_selection.get()],
+            "Width" : [self.entry_width.get(),self.option_width_selection.get()],
+            "Height" : [self.entry_height.get(),self.option_height_selection.get()],
+            "Granularity" : [self.timeline_granularity_selected.get()],
+            "Title" : [self.list_title_font_selected,self.str_title_font_color_selected,
+            self.str_title_fill_color_selected,self.title_text_align_selection.get()],
+            "Layout" : [self.slide_layout_selection.get()],
+            "Timline" : [self.create_timeline_checkbutton_selection.get()],
+            "Milestone" : [self.create_milestone_checkbutton_selection.get()],
+            "Milestone Properties" : [self.list_milestone_font_selected,self.str_milestone_font_color_selected,
+            self.str_milestone_fill_color_selected,self.milestone_text_align_selection.get()],
+            "Row 1 Properties" : [self.list_row_1_font_selected,self.str_row_1_font_color_selected,
+            self.str_row_1_fill_color_selected,self.row_1_text_align_selection.get()],
+            "Row 2 Properties" : [self.list_row_2_font_selected,self.str_row_2_font_color_selected,
+            self.str_row_2_fill_color_selected,self.row_2_text_align_selection.get()],
+            "Milestone 1" : [
+                self.milestone_1_selection.get(),
+                self.shape_type_milestone_1_selection.get(),
+                self.str_shape_color_milestone_1_selected,
+                self.str_outline_color_milestone_1_selected,
+                self.shape_align_milestone_1_selection.get(),
+                self.milestone_name_milestone_1_selection.get(),
+                self.month_milestone_1_selection.get(),
+                self.year_milestone_1_selection.get()
+                ],
+            "Milestone 2" : [
+                self.milestone_2_selection.get(),
+                self.shape_type_milestone_2_selection.get(),
+                self.str_shape_color_milestone_2_selected,
+                self.str_outline_color_milestone_2_selected,
+                self.shape_align_milestone_2_selection.get(),
+                self.milestone_name_milestone_2_selection.get(),
+                self.month_milestone_2_selection.get(),
+                self.year_milestone_2_selection.get()
+                ],
+            "Milestone 3" : [
+                self.milestone_3_selection.get(),
+                self.shape_type_milestone_3_selection.get(),
+                self.str_shape_color_milestone_3_selected,
+                self.str_outline_color_milestone_3_selected,
+                self.shape_align_milestone_3_selection.get(),
+                self.milestone_name_milestone_3_selection.get(),
+                self.month_milestone_3_selection.get(),
+                self.year_milestone_3_selection.get()
+                ],
+            "Milestone 4" : [
+                self.milestone_4_selection.get(),
+                self.shape_type_milestone_4_selection.get(),
+                self.str_shape_color_milestone_4_selected,
+                self.str_outline_color_milestone_4_selected,
+                self.shape_align_milestone_4_selection.get(),
+                self.milestone_name_milestone_4_selection.get(),
+                self.month_milestone_4_selection.get(),
+                self.year_milestone_4_selection.get()
+                ],
+            "Milestone 5" : [
+                self.milestone_5_selection.get(),
+                self.shape_type_milestone_5_selection.get(),
+                self.str_shape_color_milestone_5_selected,
+                self.str_outline_color_milestone_5_selected,
+                self.shape_align_milestone_5_selection.get(),
+                self.milestone_name_milestone_5_selection.get(),
+                self.month_milestone_5_selection.get(),
+                self.year_milestone_5_selection.get()
+                ]
+        }
+        return timeline_properties_dict
 
     # Function to set defaults
     def __set_default_values(self):
-        pass
+        # Font
+        self.list_title_font_selected=["Times New Roman",24,False,False,False,False]
+        self.list_row_1_font_selected=['Arial',12,False,False,False,False]
+        self.list_row_2_font_selected=['Arial',12,False,False,False,False]
+        self.list_milestone_font_selected=['Arial',12,False,False,False,False]
+
+        # Font Color
+        self.str_title_font_color_selected="#000000"
+        self.str_row_1_font_color_selected="#FFFFFF"
+        self.str_row_2_font_color_selected="#000000"
+        self.str_milestone_font_color_selected="#000000"
+
+        # Fill Color
+        self.str_title_fill_color_selected="#FFFFFF"
+        self.str_row_1_fill_color_selected="#014D4E"
+        self.str_row_2_fill_color_selected="#82FBFD"
+        self.str_milestone_fill_color_selected="#FFFFFF"
+
+        # Text Align
+        self.title_text_align_selection = StringVar()
+        self.title_text_align_selection.set("Left")
+        self.row_1_text_align_selection = StringVar()
+        self.row_1_text_align_selection.set("Center")
+        self.row_2_text_align_selection = StringVar()
+        self.row_2_text_align_selection.set("Center")
+        self.milestone_text_align_selection = StringVar()
+        self.milestone_text_align_selection.set("Left")
+
+        # Milestone Shape Color
+        self.str_shape_color_milestone_1_selected="#000000"
+        self.str_shape_color_milestone_2_selected="#000000"
+        self.str_shape_color_milestone_3_selected="#000000"
+        self.str_shape_color_milestone_4_selected="#000000"
+        self.str_shape_color_milestone_5_selected="#000000"
+
+        # Milestone Shape outline color
+        self.str_outline_color_milestone_1_selected="#000000"
+        self.str_outline_color_milestone_2_selected="#000000"
+        self.str_outline_color_milestone_3_selected="#000000"
+        self.str_outline_color_milestone_4_selected="#000000"
+        self.str_outline_color_milestone_5_selected="#000000"
+
+        # Milestone Selection Booleans
+        self.milestone_1_selection = BooleanVar()
+        self.milestone_1_selection.set(False)
+        self.milestone_2_selection = BooleanVar()
+        self.milestone_2_selection.set(False)
+        self.milestone_3_selection = BooleanVar()
+        self.milestone_3_selection.set(False)
+        self.milestone_4_selection = BooleanVar()
+        self.milestone_4_selection.set(False)
+        self.milestone_5_selection = BooleanVar()
+        self.milestone_5_selection.set(False)
+
+        # Shape Type
+        self.shape_type_milestone_1_selection = StringVar(value="Diamond")
+        self.shape_type_milestone_2_selection = StringVar(value="Diamond")
+        self.shape_type_milestone_3_selection = StringVar(value="Diamond")
+        self.shape_type_milestone_4_selection = StringVar(value="Diamond")
+        self.shape_type_milestone_5_selection = StringVar(value="Diamond")
+        
+        # Shape Alignment
+        self.shape_align_milestone_1_selection = StringVar(value="Right of Shape")
+        self.shape_align_milestone_2_selection = StringVar(value="Right of Shape")
+        self.shape_align_milestone_3_selection = StringVar(value="Right of Shape")
+        self.shape_align_milestone_4_selection = StringVar(value="Right of Shape")
+        self.shape_align_milestone_5_selection = StringVar(value="Right of Shape")
+        
+        # Milestone Name
+        self.milestone_name_milestone_1_selection = StringVar(value="Milestone 1")
+        self.milestone_name_milestone_2_selection = StringVar(value="Milestone 2")
+        self.milestone_name_milestone_3_selection = StringVar(value="Milestone 3")
+        self.milestone_name_milestone_4_selection = StringVar(value="Milestone 4")
+        self.milestone_name_milestone_5_selection = StringVar(value="Milestone 5")
+
+        # Milestone Month
+        self.month_milestone_1_selection = StringVar(value="January")
+        self.month_milestone_2_selection = StringVar(value="January")
+        self.month_milestone_3_selection = StringVar(value="January")
+        self.month_milestone_4_selection = StringVar(value="January")
+        self.month_milestone_5_selection = StringVar(value="January")
+        
+        # Milestone Year
+        self.year_milestone_1_selection = StringVar(value="2022")
+        self.year_milestone_2_selection = StringVar(value="2022")
+        self.year_milestone_3_selection = StringVar(value="2022")
+        self.year_milestone_4_selection = StringVar(value="2022")
+        self.year_milestone_5_selection = StringVar(value="2022")
+        
 
     # Function to Go to Next Frame
     def self_next_frame(self):
@@ -259,7 +418,7 @@ class TimelinePropertiesFrame():
         return list_font_selected
     
     # Stores Font Properties in a list
-    # [Font Name, Font Size, bold, italic, is_underline, is_overstrike]
+    # [Font Name, Font Size, is_bold, is_italic, is_underline, is_overstrike]
     def row_1_font_chooser(self):
         self.list_row_1_font_selected = self.row_font_chooser()
     def row_2_font_chooser(self):
@@ -767,12 +926,12 @@ class TimelinePropertiesFrame():
     def relative_to_assets(self,path: str) -> Path:
         return self.ASSETS_PATH / Path(path)
 
-if __name__=="__main__":
-    root = Tk()
-    root.wm_title(str_project_title)
-    root.geometry("984x700")
-    root.rowconfigure(0,weight=1)
-    root.columnconfigure(0,weight=1)
-    frame = TimelinePropertiesFrame(root,None,slideLayoutList(Presentation()))
-    showFrame(frame.frame)
-    root.mainloop()
+# if __name__=="__main__":
+#     root = Tk()
+#     root.wm_title(str_project_title)
+#     root.geometry("984x700")
+#     root.rowconfigure(0,weight=1)
+#     root.columnconfigure(0,weight=1)
+#     frame = TimelinePropertiesFrame(root,None,slideLayoutList(Presentation()))
+#     showFrame(frame.frame)
+#     root.mainloop()
