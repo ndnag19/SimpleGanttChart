@@ -1,5 +1,4 @@
 #imports for the functions defined here
-
 import pandas as pd
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
@@ -8,6 +7,7 @@ from pptx.enum.text import *
 from dateutil.relativedelta import relativedelta
 import pptx
 from tkinter.messagebox import showerror
+from PIL import ImageColor
 
 #Create a Table
 def createTable(rows: int,cols: int, left: float,top: float,width: float,height: float, slide):
@@ -41,11 +41,18 @@ is_italics_year=False ,is_italics_month=False):
                 cell.fill.fore_color.theme_color=MSO_THEME_COLOR.ACCENT_1
             else:
                 try:
+                    fill_color_year_r=ImageColor.getcolor(fill_color_year,"RGB")[0]
+                    fill_color_year_g=ImageColor.getcolor(fill_color_year,"RGB")[1]
+                    fill_color_year_b=ImageColor.getcolor(fill_color_year,"RGB")[2]
+                except:
+                    showerror("Text Fill Color Not Selected",
+                    f"Please ensure text fill color for row 1 is selected.")
+                try:
                     cell.fill.solid()
-                    cell.fill.fore_color.rgb = RGBColor.from_string(fill_color_year.lstrip('#'))
+                    cell.fill.fore_color.rgb = RGBColor(fill_color_year_r,fill_color_year_g,fill_color_year_b)
                 except:
                     showerror("Invalid Fill Color",
-                    "Enter a valid hex color code. Ex. #FFFF00")
+                    f"Enter a valid hex color code. Entered Value: {fill_color_year} Ex. #FFFF00")
             
             cell.text_frame.clear()
 
@@ -65,8 +72,16 @@ is_italics_year=False ,is_italics_month=False):
             run.font.name = font_name_year
             run.font.size = Pt(font_size_year)
             
+            try:
+                font_color_year_r=ImageColor.getcolor(font_color_year,"RGB")[0]
+                font_color_year_g=ImageColor.getcolor(font_color_year,"RGB")[1]
+                font_color_year_b=ImageColor.getcolor(font_color_year,"RGB")[2]
+            except:
+                showerror("Text Font Color Not Selected",
+                f"Please ensure Font color for row 1 is selected.")
+
             try: 
-                run.font.color.rgb = RGBColor.from_string(font_color_year.lstrip('#'))
+                run.font.color.rgb = RGBColor(font_color_year_r,font_color_year_g,font_color_year_b)
             except:
                 showerror("Invalid Font Color",
                     "Enter a valid hex color code. Ex. #FFFF00")
@@ -81,11 +96,18 @@ is_italics_year=False ,is_italics_month=False):
                 cell.fill.fore_color.theme_color=MSO_THEME_COLOR.ACCENT_1
             else:
                 try:
+                    fill_color_year_r=ImageColor.getcolor(fill_color_year,"RGB")[0]
+                    fill_color_year_g=ImageColor.getcolor(fill_color_year,"RGB")[1]
+                    fill_color_year_b=ImageColor.getcolor(fill_color_year,"RGB")[2]
+                except:
+                    showerror("Text Fill Color Not Selected",
+                    f"Please ensure text fill color for row 1 is selected.")
+                try:
                     cell.fill.solid()
-                    cell.fill.fore_color.rgb = RGBColor.from_string(fill_color_year.lstrip('#'))
+                    cell.fill.fore_color.rgb = RGBColor(fill_color_year_r,fill_color_year_g,fill_color_year_b)
                 except:
                     showerror("Invalid Fill Color",
-                    "Enter a valid hex color code. Ex. #FFFF00")
+                    f"Enter a valid hex color code. Entered Value: {fill_color_year} Ex. #FFFF00")
 
             p=cell.text_frame.paragraphs[0]
 
@@ -103,8 +125,15 @@ is_italics_year=False ,is_italics_month=False):
             run.font.name = font_name_year
             run.font.size = Pt(font_size_year)
             try:
-                cell.fill.solid() 
-                run.font.color.rgb = RGBColor.from_string(font_color_year.lstrip('#'))
+                font_color_year_r=ImageColor.getcolor(font_color_year,"RGB")[0]
+                font_color_year_g=ImageColor.getcolor(font_color_year,"RGB")[1]
+                font_color_year_b=ImageColor.getcolor(font_color_year,"RGB")[2]
+            except:
+                showerror("Text Font Color Not Selected",
+                f"Please ensure text Font color for row 1 is selected.")
+
+            try: 
+                run.font.color.rgb = RGBColor(font_color_year_r,font_color_year_g,font_color_year_b)
             except:
                 showerror("Invalid Font Color",
                     "Enter a valid hex color code. Ex. #FFFF00")
@@ -122,10 +151,18 @@ is_italics_year=False ,is_italics_month=False):
             cell.fill.fore_color.brightness = -0.5
         else:
             try:
-                cell.fill.fore_color.rgb = RGBColor.from_string(fill_color_month.lstrip('#'))
+                fill_color_month_r=ImageColor.getcolor(fill_color_month,"RGB")[0]
+                fill_color_month_g=ImageColor.getcolor(fill_color_month,"RGB")[1]
+                fill_color_month_b=ImageColor.getcolor(fill_color_month,"RGB")[2]
             except:
+                showerror("Text Fill Color Not Selected",
+                f"Please ensure text fill color for row 2 is selected.")
+            try:
+                cell.fill.solid()
+                cell.fill.fore_color.rgb = RGBColor(fill_color_month_r,fill_color_month_g,fill_color_month_b)
+            except Exception as e:
                 showerror("Invalid Fill Color",
-                    "Enter a valid hex color code. Ex. #FFFF00")
+                    f"Enter a valid hex color code. Entered Value: {fill_color_month} Ex. #FFFF00 \n Exception {e}")
         
         cell.text_frame.clear()
         p=cell.text_frame.paragraphs[0]
@@ -144,8 +181,15 @@ is_italics_year=False ,is_italics_month=False):
         run.text = str(current_month.month)
         # run.text = str(current_month.month_name())[0:3]
         run.font.size = Pt(font_size_month)
+        try:
+            font_color_month_r=ImageColor.getcolor(font_color_month,"RGB")[0]
+            font_color_month_g=ImageColor.getcolor(font_color_month,"RGB")[1]
+            font_color_month_b=ImageColor.getcolor(font_color_month,"RGB")[2]
+        except:
+            showerror("Text Font Color Not Selected",
+            f"Please ensure text Font color for row 2 is selected.")
         try: 
-            run.font.color.rgb = RGBColor.from_string(font_color_month.lstrip('#'))
+            run.font.color.rgb = RGBColor(font_color_month_r,font_color_month_g,font_color_month_b)
         except:
             showerror("Invalid Font Color",
                     "Enter a valid hex color code. Ex. #FFFF00")
@@ -180,11 +224,18 @@ is_italics_year=False ,is_italics_month=False):
                 cell.fill.fore_color.theme_color=MSO_THEME_COLOR.ACCENT_1
             else:
                 try:
+                    fill_color_year_r=ImageColor.getcolor(fill_color_year,"RGB")[0]
+                    fill_color_year_g=ImageColor.getcolor(fill_color_year,"RGB")[1]
+                    fill_color_year_b=ImageColor.getcolor(fill_color_year,"RGB")[2]
+                except:
+                    showerror("Text Fill Color Not Selected",
+                    f"Please ensure text fill color for row 1 is selected.")
+                try:
                     cell.fill.solid()
-                    cell.fill.fore_color.rgb = RGBColor.from_string(fill_color_year.lstrip('#'))
+                    cell.fill.fore_color.rgb = RGBColor(fill_color_year_r,fill_color_year_g,fill_color_year_b)
                 except:
                     showerror("Invalid Fill Color",
-                    "Enter a valid hex color code. Ex. #FFFF00")
+                    f"Enter a valid hex color code. Entered Value: {fill_color_year} Ex. #FFFF00")
             
             cell.text_frame.clear()
 
@@ -204,8 +255,16 @@ is_italics_year=False ,is_italics_month=False):
             run.font.name = font_name_year
             run.font.size = Pt(font_size_year)
             
+            try:
+                font_color_year_r=ImageColor.getcolor(font_color_year,"RGB")[0]
+                font_color_year_g=ImageColor.getcolor(font_color_year,"RGB")[1]
+                font_color_year_b=ImageColor.getcolor(font_color_year,"RGB")[2]
+            except:
+                showerror("Text Font Color Not Selected",
+                f"Please ensure Font color for row 1 is selected.")
+
             try: 
-                run.font.color.rgb = RGBColor.from_string(font_color_year.lstrip('#'))
+                run.font.color.rgb = RGBColor(font_color_year_r,font_color_year_g,font_color_year_b)
             except:
                 showerror("Invalid Font Color",
                     "Enter a valid hex color code. Ex. #FFFF00")
@@ -220,11 +279,18 @@ is_italics_year=False ,is_italics_month=False):
                 cell.fill.fore_color.theme_color=MSO_THEME_COLOR.ACCENT_1
             else:
                 try:
+                    fill_color_year_r=ImageColor.getcolor(fill_color_year,"RGB")[0]
+                    fill_color_year_g=ImageColor.getcolor(fill_color_year,"RGB")[1]
+                    fill_color_year_b=ImageColor.getcolor(fill_color_year,"RGB")[2]
+                except:
+                    showerror("Text Fill Color Not Selected",
+                    f"Please ensure text fill color for row 1 is selected.")
+                try:
                     cell.fill.solid()
-                    cell.fill.fore_color.rgb = RGBColor.from_string(fill_color_year.lstrip('#'))
+                    cell.fill.fore_color.rgb = RGBColor(fill_color_year_r,fill_color_year_g,fill_color_year_b)
                 except:
                     showerror("Invalid Fill Color",
-                    "Enter a valid hex color code. Ex. #FFFF00")
+                    f"Enter a valid hex color code. Entered Value: {fill_color_year} Ex. #FFFF00")
 
             p=cell.text_frame.paragraphs[0]
 
@@ -242,8 +308,15 @@ is_italics_year=False ,is_italics_month=False):
             run.font.name = font_name_year
             run.font.size = Pt(font_size_year)
             try:
-                cell.fill.solid() 
-                run.font.color.rgb = RGBColor.from_string(font_color_year.lstrip('#'))
+                font_color_year_r=ImageColor.getcolor(font_color_year,"RGB")[0]
+                font_color_year_g=ImageColor.getcolor(font_color_year,"RGB")[1]
+                font_color_year_b=ImageColor.getcolor(font_color_year,"RGB")[2]
+            except:
+                showerror("Text Font Color Not Selected",
+                f"Please ensure Font color for row 1 is selected.")
+
+            try: 
+                run.font.color.rgb = RGBColor(font_color_year_r,font_color_year_g,font_color_year_b)
             except:
                 showerror("Invalid Font Color",
                     "Enter a valid hex color code. Ex. #FFFF00")
@@ -269,12 +342,19 @@ is_italics_year=False ,is_italics_month=False):
                 cell.fill.fore_color.theme_color=MSO_THEME_COLOR.ACCENT_1
             else:
                 try:
-                    cell.fill.solid()
-                    cell.fill.fore_color.rgb = RGBColor.from_string(fill_color_month.lstrip('#'))
+                    fill_color_month_r=ImageColor.getcolor(fill_color_month,"RGB")[0]
+                    fill_color_month_g=ImageColor.getcolor(fill_color_month,"RGB")[1]
+                    fill_color_month_b=ImageColor.getcolor(fill_color_month,"RGB")[2]
                 except:
+                    showerror("Text Fill Color Not Selected",
+                    f"Please ensure text fill color for row 2 is selected.")
+                try:
+                    cell.fill.solid()
+                    cell.fill.fore_color.rgb = RGBColor(fill_color_month_r,fill_color_month_g,fill_color_month_b)
+                except Exception as e:
                     showerror("Invalid Fill Color",
-                    "Enter a valid hex color code. Ex. #FFFF00")
-            
+                        f"Enter a valid hex color code. Entered Value: {fill_color_month} Ex. #FFFF00 \n Exception {e}")
+        
             cell.text_frame.clear()
 
             p=cell.text_frame.paragraphs[0]
@@ -293,12 +373,19 @@ is_italics_year=False ,is_italics_month=False):
             run.font.name = font_name_month
             run.font.size = Pt(font_size_month)
             
+            try:
+                font_color_month_r=ImageColor.getcolor(font_color_month,"RGB")[0]
+                font_color_month_g=ImageColor.getcolor(font_color_month,"RGB")[1]
+                font_color_month_b=ImageColor.getcolor(font_color_month,"RGB")[2]
+            except:
+                showerror("Text Font Color Not Selected",
+                f"Please ensure text Font color for row 2 is selected.")
             try: 
-                run.font.color.rgb = RGBColor.from_string(font_color_month.lstrip('#'))
+                run.font.color.rgb = RGBColor(font_color_month_r,font_color_month_g,font_color_month_b)
             except:
                 showerror("Invalid Font Color",
-                    "Enter a valid hex color code. Ex. #FFFF00")
-                        
+                        "Enter a valid hex color code. Ex. #FFFF00")
+                   
             current_quarter=new_current_quarter   
         if i==0:
             cell = table.cell(1,i)
@@ -309,12 +396,19 @@ is_italics_year=False ,is_italics_month=False):
                 cell.fill.fore_color.theme_color=MSO_THEME_COLOR.ACCENT_1
             else:
                 try:
-                    cell.fill.solid()
-                    cell.fill.fore_color.rgb = RGBColor.from_string(fill_color_month.lstrip('#'))
+                    fill_color_month_r=ImageColor.getcolor(fill_color_month,"RGB")[0]
+                    fill_color_month_g=ImageColor.getcolor(fill_color_month,"RGB")[1]
+                    fill_color_month_b=ImageColor.getcolor(fill_color_month,"RGB")[2]
                 except:
+                    showerror("Text Fill Color Not Selected",
+                    f"Please ensure text fill color for row 2 is selected.")
+                try:
+                    cell.fill.solid()
+                    cell.fill.fore_color.rgb = RGBColor(fill_color_month_r,fill_color_month_g,fill_color_month_b)
+                except Exception as e:
                     showerror("Invalid Fill Color",
-                    "Enter a valid hex color code. Ex. #FFFF00")
-
+                        f"Enter a valid hex color code. Entered Value: {fill_color_month} Ex. #FFFF00 \n Exception {e}")
+        
             p=cell.text_frame.paragraphs[0]
 
             if text_align_month.lower()=="right":
@@ -331,12 +425,18 @@ is_italics_year=False ,is_italics_month=False):
             run.font.name = font_name_month
             run.font.size = Pt(font_size_month)
             try:
-                cell.fill.solid() 
-                run.font.color.rgb = RGBColor.from_string(font_color_month.lstrip('#'))
+                font_color_month_r=ImageColor.getcolor(font_color_month,"RGB")[0]
+                font_color_month_g=ImageColor.getcolor(font_color_month,"RGB")[1]
+                font_color_month_b=ImageColor.getcolor(font_color_month,"RGB")[2]
+            except:
+                showerror("Text Font Color Not Selected",
+                f"Please ensure text Font color for row 2 is selected.")
+            try: 
+                run.font.color.rgb = RGBColor(font_color_month_r,font_color_month_g,font_color_month_b)
             except:
                 showerror("Invalid Font Color",
-                    "Enter a valid hex color code. Ex. #FFFF00")
-                       
+                        "Enter a valid hex color code. Ex. #FFFF00")
+                   
         if i==no_of_months-1:
             cell = table.cell(1,qindex1)
             other_cell = table.cell(1,i)
@@ -372,12 +472,19 @@ is_italics_year=False ,is_italics_month=False):
                 cell.fill.fore_color.theme_color=MSO_THEME_COLOR.ACCENT_1
             else:
                 try:
+                    fill_color_year_r=ImageColor.getcolor(fill_color_year,"RGB")[0]
+                    fill_color_year_g=ImageColor.getcolor(fill_color_year,"RGB")[1]
+                    fill_color_year_b=ImageColor.getcolor(fill_color_year,"RGB")[2]
+                except:
+                    showerror("Text Fill Color Not Selected",
+                    f"Please ensure text fill color for row 1 is selected.")
+                try:
                     cell.fill.solid()
-                    cell.fill.fore_color.rgb = RGBColor.from_string(fill_color_year.lstrip('#'))
+                    cell.fill.fore_color.rgb = RGBColor(fill_color_year_r,fill_color_year_g,fill_color_year_b)
                 except:
                     showerror("Invalid Fill Color",
-                    "Enter a valid hex color code. Ex. #FFFF00")
-            
+                    f"Enter a valid hex color code. Entered Value: {fill_color_year} Ex. #FFFF00")
+           
             cell.text_frame.clear()
 
             p=cell.text_frame.paragraphs[0]
@@ -396,8 +503,16 @@ is_italics_year=False ,is_italics_month=False):
             run.font.name = font_name_year
             run.font.size = Pt(font_size_year)
             
+            try:
+                font_color_year_r=ImageColor.getcolor(font_color_year,"RGB")[0]
+                font_color_year_g=ImageColor.getcolor(font_color_year,"RGB")[1]
+                font_color_year_b=ImageColor.getcolor(font_color_year,"RGB")[2]
+            except:
+                showerror("Text Font Color Not Selected",
+                f"Please ensure Font color for row 1 is selected.")
+
             try: 
-                run.font.color.rgb = RGBColor.from_string(font_color_year.lstrip('#'))
+                run.font.color.rgb = RGBColor(font_color_year_r,font_color_year_g,font_color_year_b)
             except:
                 showerror("Invalid Font Color",
                     "Enter a valid hex color code. Ex. #FFFF00")
@@ -412,12 +527,19 @@ is_italics_year=False ,is_italics_month=False):
                 cell.fill.fore_color.theme_color=MSO_THEME_COLOR.ACCENT_1
             else:
                 try:
+                    fill_color_year_r=ImageColor.getcolor(fill_color_year,"RGB")[0]
+                    fill_color_year_g=ImageColor.getcolor(fill_color_year,"RGB")[1]
+                    fill_color_year_b=ImageColor.getcolor(fill_color_year,"RGB")[2]
+                except:
+                    showerror("Text Fill Color Not Selected",
+                    f"Please ensure text fill color for row 1 is selected.")
+                try:
                     cell.fill.solid()
-                    cell.fill.fore_color.rgb = RGBColor.from_string(fill_color_year.lstrip('#'))
+                    cell.fill.fore_color.rgb = RGBColor(fill_color_year_r,fill_color_year_g,fill_color_year_b)
                 except:
                     showerror("Invalid Fill Color",
-                    "Enter a valid hex color code. Ex. #FFFF00")
-
+                    f"Enter a valid hex color code. Entered Value: {fill_color_year} Ex. #FFFF00")
+            
             p=cell.text_frame.paragraphs[0]
 
             if text_align_year.lower()=="right":
@@ -434,8 +556,15 @@ is_italics_year=False ,is_italics_month=False):
             run.font.name = font_name_year
             run.font.size = Pt(font_size_year)
             try:
-                cell.fill.solid() 
-                run.font.color.rgb = RGBColor.from_string(font_color_year.lstrip('#'))
+                font_color_year_r=ImageColor.getcolor(font_color_year,"RGB")[0]
+                font_color_year_g=ImageColor.getcolor(font_color_year,"RGB")[1]
+                font_color_year_b=ImageColor.getcolor(font_color_year,"RGB")[2]
+            except:
+                showerror("Text Font Color Not Selected",
+                f"Please ensure Font color for row 1 is selected.")
+
+            try: 
+                run.font.color.rgb = RGBColor(font_color_year_r,font_color_year_g,font_color_year_b)
             except:
                 showerror("Invalid Font Color",
                     "Enter a valid hex color code. Ex. #FFFF00")
@@ -461,12 +590,19 @@ is_italics_year=False ,is_italics_month=False):
                 cell.fill.fore_color.theme_color=MSO_THEME_COLOR.ACCENT_1
             else:
                 try:
-                    cell.fill.solid()
-                    cell.fill.fore_color.rgb = RGBColor.from_string(fill_color_month.lstrip('#'))
+                    fill_color_month_r=ImageColor.getcolor(fill_color_month,"RGB")[0]
+                    fill_color_month_g=ImageColor.getcolor(fill_color_month,"RGB")[1]
+                    fill_color_month_b=ImageColor.getcolor(fill_color_month,"RGB")[2]
                 except:
+                    showerror("Text Fill Color Not Selected",
+                    f"Please ensure text fill color for row 2 is selected.")
+                try:
+                    cell.fill.solid()
+                    cell.fill.fore_color.rgb = RGBColor(fill_color_month_r,fill_color_month_g,fill_color_month_b)
+                except Exception as e:
                     showerror("Invalid Fill Color",
-                    "Enter a valid hex color code. Ex. #FFFF00")
-            
+                        f"Enter a valid hex color code. Entered Value: {fill_color_month} Ex. #FFFF00 \n Exception {e}")
+        
             cell.text_frame.clear()
 
             p=cell.text_frame.paragraphs[0]
@@ -485,11 +621,18 @@ is_italics_year=False ,is_italics_month=False):
             run.font.name = font_name_month
             run.font.size = Pt(font_size_month)
             
+            try:
+                font_color_month_r=ImageColor.getcolor(font_color_month,"RGB")[0]
+                font_color_month_g=ImageColor.getcolor(font_color_month,"RGB")[1]
+                font_color_month_b=ImageColor.getcolor(font_color_month,"RGB")[2]
+            except:
+                showerror("Text Font Color Not Selected",
+                f"Please ensure text Font color for row 2 is selected.")
             try: 
-                run.font.color.rgb = RGBColor.from_string(font_color_month.lstrip('#'))
+                run.font.color.rgb = RGBColor(font_color_month_r,font_color_month_g,font_color_month_b)
             except:
                 showerror("Invalid Font Color",
-                    "Enter a valid hex color code. Ex. #FFFF00")
+                        "Enter a valid hex color code. Ex. #FFFF00")
                         
             current_SemiAnnual=new_current_SemiAnnual   
         if i==0:
@@ -501,12 +644,19 @@ is_italics_year=False ,is_italics_month=False):
                 cell.fill.fore_color.theme_color=MSO_THEME_COLOR.ACCENT_1
             else:
                 try:
-                    cell.fill.solid()
-                    cell.fill.fore_color.rgb = RGBColor.from_string(fill_color_month.lstrip('#'))
+                    fill_color_month_r=ImageColor.getcolor(fill_color_month,"RGB")[0]
+                    fill_color_month_g=ImageColor.getcolor(fill_color_month,"RGB")[1]
+                    fill_color_month_b=ImageColor.getcolor(fill_color_month,"RGB")[2]
                 except:
+                    showerror("Text Fill Color Not Selected",
+                    f"Please ensure text fill color for row 2 is selected.")
+                try:
+                    cell.fill.solid()
+                    cell.fill.fore_color.rgb = RGBColor(fill_color_month_r,fill_color_month_g,fill_color_month_b)
+                except Exception as e:
                     showerror("Invalid Fill Color",
-                    "Enter a valid hex color code. Ex. #FFFF00")
-
+                        f"Enter a valid hex color code. Entered Value: {fill_color_month} Ex. #FFFF00 \n Exception {e}")
+        
             p=cell.text_frame.paragraphs[0]
 
             if text_align_month.lower()=="right":
@@ -523,11 +673,17 @@ is_italics_year=False ,is_italics_month=False):
             run.font.name = font_name_month
             run.font.size = Pt(font_size_month)
             try:
-                cell.fill.solid() 
-                run.font.color.rgb = RGBColor.from_string(font_color_month.lstrip('#'))
+                font_color_month_r=ImageColor.getcolor(font_color_month,"RGB")[0]
+                font_color_month_g=ImageColor.getcolor(font_color_month,"RGB")[1]
+                font_color_month_b=ImageColor.getcolor(font_color_month,"RGB")[2]
+            except:
+                showerror("Text Font Color Not Selected",
+                f"Please ensure text Font color for row 2 is selected.")
+            try: 
+                run.font.color.rgb = RGBColor(font_color_month_r,font_color_month_g,font_color_month_b)
             except:
                 showerror("Invalid Font Color",
-                    "Enter a valid hex color code. Ex. #FFFF00")
+                        "Enter a valid hex color code. Ex. #FFFF00")
                        
         if i==no_of_months-1:
             cell = table.cell(1,qindex1)

@@ -1,13 +1,11 @@
 # Class which creates the whole application
-# Changes to be made
-'''
-1. Add New Timeline Properties frame and pass controller to it
-'''
+
 from tkinter import *
 from Frontend.object_save_screen import SaveScreenFrame
 from Frontend.object_start_screen import *
 from Frontend.object_data_setup import *
-from Frontend.object_gantt_properties import*
+from Frontend.object_gantt_properties import *
+from Frontend.object_timeline_properties import *
 from Frontend.strings import *
 from Frontend.commands import *
 from Frontend.object_start_screen import *
@@ -30,6 +28,7 @@ class MainWindow:
         #Adding Frames to the window
         self.myStartScreen = StartScreenFrame(self.root,controller=self)
         self.myDataSetup = DataSetupFrame(self.root,controller=self)
+        self.myTimelineProperties = TimelinePropertiesFrame(self.root,controller=self)
         self.myGanttProperties = GanttPropertiesFrame(self.root,controller=self,font_list=font_list)
         self.mySaveScreen = SaveScreenFrame(self.root,controller=self)
         # Setting Start Screen as the first framee

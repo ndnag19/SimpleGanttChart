@@ -1,10 +1,4 @@
 # Class for setting up the imported data
-# List of Changes in Mind:
-'''
-1. Function Name/Slide Title Selector
-2. Change show next button behaviour
-'''
-
 from pathlib import Path
 from tkinter.ttk import Frame, Button, Combobox, Treeview
 from tkinter import Tk, Canvas, PhotoImage, Scrollbar
@@ -56,10 +50,19 @@ class DataSetupFrame:
 
         # Headers for the data setup
         self.canvas.create_text(
+            485.0,
+            40.0,
+            anchor="nw",
+            text="Slide Title\t:",
+            fill="#000000",
+            font=("Roboto", 24 * -1)
+        )
+        
+        self.canvas.create_text(
             68.0,
             99.0,
             anchor="nw",
-            text="Task Name:",
+            text="Task Name\t:",
             fill="#000000",
             font=("Roboto", 24 * -1)
         )
@@ -68,7 +71,7 @@ class DataSetupFrame:
             485.0,
             99.0,
             anchor="nw",
-            text="Task Duration:",
+            text="Task Duration\t:",
             fill="#000000",
             font=("Roboto", 24 * -1)
         )
@@ -77,7 +80,7 @@ class DataSetupFrame:
             68.0,
             184.0,
             anchor="nw",
-            text="Task Level:",
+            text="Task Level\t:",
             fill="#000000",
             font=("Roboto", 24 * -1)
         )
@@ -86,7 +89,7 @@ class DataSetupFrame:
             485.0,
             184.0,
             anchor="nw",
-            text="Gantt Start Date:",
+            text="Gantt Start Date\t:",
             fill="#000000",
             font=("Roboto", 24 * -1)
         )
@@ -95,7 +98,7 @@ class DataSetupFrame:
             68.0,
             269.0,
             anchor="nw",
-            text="Task Start Date:",
+            text="Task Start Date\t:",
             fill="#000000",
             font=("Roboto", 24 * -1)
         )
@@ -104,7 +107,7 @@ class DataSetupFrame:
             485.0,
             269.0,
             anchor="nw",
-            text="Gantt Duration:",
+            text="Gantt Duration\t:",
             fill="#000000",
             font=("Roboto", 24 * -1)
         )
@@ -244,6 +247,21 @@ class DataSetupFrame:
             showerror("Data Error","Please select data in the previous page or make sure your data has atleast 6 columns")
         self.canvas.create_window(670,273,anchor="nw",window=self.comboBox_gantt_duration)
 
+        # Gantt Title dropdown list
+        self.comboBox_slide_title_selected = StringVar()
+        self.comboBox_slide_title = Combobox(
+            self.canvas,
+            value=combobox_values_list,
+            textvariable=self.comboBox_slide_title_selected,
+            width=30
+        )
+        self.comboBox_slide_title.state(['readonly'])
+        try:
+            self.comboBox_slide_title.current(6)
+        except:
+            showerror("Data Error","Please select data in the previous page or make sure your data has atleast 6 columns")
+        self.canvas.create_window(670,43,anchor="nw",window=self.comboBox_slide_title)
+
 # Creates treeview with horizontal and vertical scroll bars
     def data_preview(self,data):
         self.tree_frame = Frame(self.frame,height=200)
@@ -283,7 +301,7 @@ class DataSetupFrame:
         
 # Setups the data for further processing and switches to gantt properties frame
     def self_next_frame(self):
-        showFrame(self.controller.myGanttProperties.frame)
+        showFrame(self.controller.myTimelineProperties.frame)
         data = self.controller.myStartScreen.ganttData
         self.final_data=data_setup_for_gantt(
             data,
@@ -292,5 +310,6 @@ class DataSetupFrame:
             task_level=self.comboBox_task_level_selected.get(),
             task_start_date=self.comboBox_task_start_date_selected.get(),
             gantt_start_date=self.comboBox_gantt_start_date_selected.get(),
-            gantt_duration=self.comboBox_gantt_duration_selected.get()
+            gantt_duration=self.comboBox_gantt_duration_selected.get(),
+            slide_title=self.comboBox_slide_title_selected.get()
         )

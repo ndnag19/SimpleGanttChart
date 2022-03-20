@@ -1,7 +1,6 @@
 from tkinter import *
 from tkinter import filedialog,Toplevel
 from tkinter.messagebox import showinfo, showerror, showwarning
-from ttkwidgets.font import FontFamilyDropdown,FontPropertiesFrame,FontSizeDropdown
 import subprocess,os,platform
 from pptx.text.fonts import FontFiles
 from pptx import Presentation
@@ -67,6 +66,3 @@ def openLinks(link: str):
             subprocess.call(("xdg-open",link))
         except OSError:
             showerror("OS Error",f"Please visit the page at {link}")
-
-# Creates a top level frame with
-

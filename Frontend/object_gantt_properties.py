@@ -1,11 +1,4 @@
 # Class for setting up the Gantt Properties
-# Changes in Mind:
-'''
-1. Move timeline properties to object_timeline_properties
-2. Add option for shape outline color
-3. Try to make layout better, change the preview tab to a image with bigger shapes and text
-'''
-
 from pathlib import Path
 from tkinter.ttk import Frame, Button, Combobox, Entry
 from tkinter import Tk, Canvas, PhotoImage, colorchooser
@@ -153,7 +146,7 @@ class GanttPropertiesFrame():
             image=self.button_previous_img,
             borderwidth=0,
             highlightthickness=2,
-            command=lambda: showFrame(controller.myDataSetup.frame),
+            command=lambda: showFrame(controller.myTimelineProperties.frame),
             relief="raised"
         )
         self.button_previous.place(
@@ -533,6 +526,7 @@ class GanttPropertiesFrame():
         # Finalizing Inputs for creating the gantt chart
         self.final_data = self.controller.myDataSetup.final_data
         self.gantt_prs = self.controller.myStartScreen.ganttPrs
+        self.timeline_input = self.controller.myTimelineProperties.final_inputs
         self.align_tl = [
             self.alignment_task_1_selection.get(),
             self.alignment_task_2_selection.get(),
@@ -582,13 +576,25 @@ class GanttPropertiesFrame():
             self.entry_font_size_task_4.get(),
             self.entry_font_size_task_5.get()
         ]
+        self.shape_height_tl=[
+            self.task_height_task_1.get(),
+            self.task_height_task_2.get(),
+            self.task_height_task_3.get(),
+            self.task_height_task_4.get(),
+            self.task_height_task_5.get()
+        ]
+        self.shape_height_metric_tl=[
+            self.option_task_height_task_1_selection.get(),
+            self.option_task_height_task_2_selection.get(),
+            self.option_task_height_task_3_selection.get(),
+            self.option_task_height_task_4_selection.get(),
+            self.option_task_height_task_5_selection.get()
+        ]
         # Creating the Gantt Chart with finalized inputs
         self.final_presentation = create_gantt_slides(
             prs=self.gantt_prs,
             gantt_data=self.final_data,
-            table_left=self.entry_left.get(),
-            table_top=self.entry_top.get(),
-            table_width=self.entry_width.get(),
+            timeline_input=self.timeline_input,
             font_color_tl=self.font_color_tl,
             font_size_tl=self.font_size_tl,
             font_prop_tl=self.font_prop_tl,
@@ -596,8 +602,7 @@ class GanttPropertiesFrame():
             shape_type_tl=self.shape_type_tl,
             shape_color_tl=self.shape_color_tl,
             align_tl=self.align_tl,
-            table_left_metric=self.option_left_selection.get(),
-            table_top_metric=self.option_top_selection.get(),
-            table_width_metric=self.option_width_selection.get()
+            shape_height_tl=self.shape_height_tl,
+            shape_height_metric_tl=self.shape_height_metric_tl
         )
         showFrame(self.controller.mySaveScreen.frame)

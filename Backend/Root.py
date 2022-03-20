@@ -14,14 +14,16 @@ from Backend.Gantt_Shapes import *
 from Backend.Gantt_Tables import *
 from Backend.Util_Functions import *
 from Backend.Custom_Errors import *
+from Frontend.strings import months_dict
 from tkinter.messagebox import showerror
 import pandas as pd
 import numpy as np
+import datetime as dt
 import pptx
 
 # Creates a dataframe with required columns for creating gantt charts
 def data_setup_for_gantt(data: pd.DataFrame,task_name: str,task_duration: str,
-task_level: str,gantt_start_date: str,task_start_date: str,gantt_duration: str):
+task_level: str,gantt_start_date: str,task_start_date: str,gantt_duration: str, slide_title: str):
     # Creates a new data frame
     gantt_data = data
 
@@ -32,7 +34,8 @@ task_level: str,gantt_start_date: str,task_start_date: str,gantt_duration: str):
         task_level:"task_level",
         gantt_start_date:"gantt_start_date",
         task_start_date:"task_start_date",
-        gantt_duration:"gantt_duration"
+        gantt_duration:"gantt_duration",
+        slide_title:"slide_title"
     },inplace=True)
 
     # Changes the type of the data incase the type is not good
@@ -57,6 +60,11 @@ task_level: str,gantt_start_date: str,task_start_date: str,gantt_duration: str):
         showerror("Invalid Task Name",
         "Check the selection of Task Name. Please make sure that the task name is text")
     try:
+        gantt_data['slide_title']=gantt_data['slide_title'].astype("string")
+    except:
+        showerror("Invalid Slide Title",
+        "Check the selection of Slide Title. Please make sure that the slide title is text")
+    try:
         gantt_data['gantt_start_date']=pd.to_datetime(gantt_data['gantt_start_date'])
     except:
         showerror("Invalid Gantt Start Date",
@@ -73,9 +81,25 @@ task_level: str,gantt_start_date: str,task_start_date: str,gantt_duration: str):
     return gantt_data
 
 # Creates the gantt slides and presentation
-def create_gantt_slides(prs: pptx.Presentation,gantt_data: pd.DataFrame,table_left: str,table_left_metric: str, table_top: str,table_top_metric: str, 
-table_width: str, table_width_metric: str,align_tl: list,shape_type_tl: list,shape_color_tl:list,font_prop_tl: list,font_style_tl:list,
-font_color_tl: list,font_size_tl: list, slide_layout_number=6):
+def create_gantt_slides(prs: pptx.Presentation,gantt_data: pd.DataFrame, timeline_input: dict,
+align_tl: list,shape_type_tl: list,shape_color_tl:list,font_prop_tl: list,font_style_tl:list,
+font_color_tl: list,font_size_tl: list, shape_height_tl: list, shape_height_metric_tl: list):
+    # Decoding the inputs from the dict
+
+    slide_layout_name = timeline_input.get('Layout')[0]
+    create_timeline = timeline_input.get('Timeline')[0]
+    create_milestones = timeline_input.get('Milestone')[0]
+    table_granularity = timeline_input.get('Granularity')[0]
+
+    table_left = timeline_input.get('Left')[0]
+    table_left_metric = timeline_input.get('Left')[1]
+    table_top = timeline_input.get("Top")[0]
+    table_top_metric = timeline_input.get("Top")[1]
+    table_width = timeline_input.get("Width")[0]
+    table_width_metric = timeline_input.get("Width")[1]
+    table_height  = timeline_input.get("Height")[0]
+    table_height_metric = timeline_input.get("Height")[1]
+
     gantt_duration = int(gantt_data['gantt_duration'][0])
     gantt_start_date = gantt_data['gantt_start_date'][0]
     # Changing the data type for table properties
@@ -83,38 +107,75 @@ font_color_tl: list,font_size_tl: list, slide_layout_number=6):
         table_left = getInches(float(table_left),table_left_metric)
         table_top = getInches(float(table_top),table_top_metric)
         table_width = getInches(float(table_width),table_width_metric)
+        table_height = getInches(float(table_height),table_height_metric)
     except:
-        showerror("Enter Valide Timeline Properties",
-        f"Timeline properties must be numeric. Cross check these inputs \n{table_left}\n{table_top}\n{table_width}")
+        showerror("Enter valid timeline properties",
+        f"Timeline properties must be numeric. Cross check these inputs \n{table_left}\n{table_top}\n{table_width}\n{table_height}")
     
+    try:
+        for i in range(len((shape_height_tl))):
+            shape_height_tl[i] = getInches(float(shape_height_tl[i]),shape_height_metric_tl[i])
+    except:
+        showerror("Enter valid task shape height input",
+        f"Please check the shape height input and ensure it is numeric.")
     # Defines the slide layout
-    slide_layout = prs.slide_layouts[slide_layout_number]
+    slide_layout = prs.slide_layouts.get_by_name(slide_layout_name,default="Blank")
     # All the variables required for Gantt Automation Operation
     width_per_col = table_width/gantt_duration
     max_slide_height = 7.5
-    table_height = 0.5
     table_columns = gantt_duration
     table_rows = 2
     height_measure = table_top
     slide_counter = 0
-    task_top = table_top+table_height*table_rows-0.2
     task_height = 0.2
+    
+    slide_title_list = list(gantt_data['slide_title'].unique())
+    slide_title_index = []
+    for i in range(len(slide_title_list)):
+        slide_title_index.append(i)
+    slide_title_map = dict(zip(slide_title_list,slide_title_index))
+    gantt_data['slide_title_number'] = gantt_data['slide_title'].map(slide_title_map)
     # Creates the first slide with table
     slide = [prs.slides.add_slide(slide_layout)]
-    table = [createTable(table_rows,int(table_columns),table_left,table_top,table_width,table_height,slide[0])]
-    simpleMonthlyTable(table[slide_counter],gantt_start_date,int(gantt_duration))
+    create_slide_title(slide[slide_counter].shapes,timeline_input,gantt_data['slide_title'][0])
+    slide_title_number = gantt_data['slide_title_number'][0]
+    create_legend(slide[slide_counter].shapes,shape_type_tl,shape_color_tl,table_top)
+    if create_timeline:
+        table = [createTable(table_rows,int(table_columns),table_left,table_top,table_width,table_height,slide[0])]
+        create_timeline_function(table[slide_counter],table_granularity,gantt_start_date,gantt_duration,timeline_input)
+        if create_milestones:
+            additional_height = create_timeline_milestones(slide[slide_counter].shapes,timeline_input,
+                    table_top+table_height*table_rows-0.2,
+                    table_left,
+                    gantt_start_date,
+                    width_per_col)
+            task_top = table_top+table_height*table_rows + additional_height
+    else:
+        task_top = table_top+table_height*table_rows-0.2
     # Create the main loop to do all the operation
     for i in range(len(gantt_data)):
         height_measure=task_top+task_height
-        if height_measure>=(max_slide_height-0.5):
+        if (height_measure>=(max_slide_height-0.5)) or (gantt_data['slide_title_number'][i]>slide_title_number):
             slide_counter=slide_counter+1
             new_slide = prs.slides.add_slide(slide_layout)
             slide.append(new_slide)
             height_measure=table_top
-            new_table = createTable(table_rows,int(table_columns),table_left,table_top,table_width,table_height,slide[slide_counter])
-            table.append(new_table)
-            simpleMonthlyTable(table[slide_counter],gantt_start_date,int(gantt_duration))
-            task_top = table_top+table_height*table_rows-0.2
+            create_slide_title(slide[slide_counter].shapes,timeline_input,gantt_data['slide_title'][i])
+            slide_title_number = gantt_data['slide_title_number'][i]
+            create_legend(slide[slide_counter].shapes,shape_type_tl,shape_color_tl,table_top)
+            if create_timeline:
+                new_table = createTable(table_rows,int(table_columns),table_left,table_top,table_width,table_height,slide[slide_counter])
+                table.append(new_table)
+                create_timeline_function(table[slide_counter],table_granularity,gantt_start_date,gantt_duration,timeline_input)
+                if create_milestones:
+                    additional_height = create_timeline_milestones(slide[slide_counter].shapes,timeline_input,
+                    table_top+table_height*table_rows-0.2,
+                    table_left,
+                    gantt_start_date,
+                    width_per_col)
+                    task_top = table_top+table_height*table_rows + additional_height
+            else:
+                task_top = table_top+table_height*table_rows-0.2
         if gantt_data['task_level'][i]==1:
             try:
                 shape_left=table_left+gantt_data['Start Calibration'][i]*width_per_col
@@ -123,7 +184,7 @@ font_color_tl: list,font_size_tl: list, slide_layout_number=6):
                     top=task_top,
                     left=shape_left,
                     width=shape_width,
-                    height=task_height,
+                    height=shape_height_tl[0],
                     shapes=slide[slide_counter].shapes,
                     shape_name=shape_type_tl[0],
                     fill_color=shape_color_tl[0]
@@ -160,7 +221,7 @@ font_color_tl: list,font_size_tl: list, slide_layout_number=6):
                     top=task_top,
                     left=shape_left,
                     width=shape_width,
-                    height=task_height,
+                    height=shape_height_tl[1],
                     shapes=slide[slide_counter].shapes,
                     shape_name=shape_type_tl[1],
                     fill_color=shape_color_tl[1]
@@ -197,7 +258,7 @@ font_color_tl: list,font_size_tl: list, slide_layout_number=6):
                     top=task_top,
                     left=shape_left,
                     width=shape_width,
-                    height=task_height,
+                    height=shape_height_tl[2],
                     shapes=slide[slide_counter].shapes,
                     shape_name=shape_type_tl[2],
                     fill_color=shape_color_tl[2]
@@ -233,8 +294,8 @@ font_color_tl: list,font_size_tl: list, slide_layout_number=6):
                 milestoneShape(
                     top=task_top,
                     left=shape_left,
-                    width=task_height,
-                    height=task_height,
+                    width=shape_height_tl[3],
+                    height=shape_height_tl[3],
                     shapes=slide[slide_counter].shapes,
                     shape_name=shape_type_tl[3],
                     fill_color=shape_color_tl[3]
@@ -270,8 +331,8 @@ font_color_tl: list,font_size_tl: list, slide_layout_number=6):
                 milestoneShape(
                     top=task_top,
                     left=shape_left,
-                    width=task_height,
-                    height=task_height,
+                    width=shape_height_tl[4],
+                    height=shape_height_tl[4],
                     shapes=slide[slide_counter].shapes,
                     shape_name=shape_type_tl[4],
                     fill_color=shape_color_tl[4]
@@ -301,6 +362,136 @@ font_color_tl: list,font_size_tl: list, slide_layout_number=6):
             except ColorSelectionError:
                 break   
     return prs
+
+# Function to create timeline milestones
+def create_timeline_milestones(shapes,timeline_input: dict, top, table_left, gantt_start_date, widthpercol):
+    milestone_name = "Milestone "
+    new_top = top
+    for i in range(1,5):
+        if timeline_input.get(milestone_name+str(i))[0]:
+            year = int(timeline_input.get(milestone_name+str(i))[7])
+            month = int(months_dict.get(timeline_input.get(milestone_name+str(i))[6]))
+            shape_left = table_left + ((dt.datetime(year,month,1)-gantt_start_date)/np.timedelta64(1,"M"))*widthpercol
+            milestoneShape(
+                left = shape_left,
+                top = top-0.1,
+                width = 0.2,
+                height = 0.2,
+                shapes = shapes,
+                outline_width =1,
+                shape_name = timeline_input.get(milestone_name+str(i))[1],
+                fill_color = timeline_input.get(milestone_name+str(i))[2],
+                outline_color = timeline_input.get(milestone_name+str(i))[3]
+            )
+            if timeline_input.get(milestone_name+str(i))[4].lower()=="left of shape":
+                textbox_left = shape_left - table_left
+            elif timeline_input.get(milestone_name+str(i))[4].lower()=="right of shape":
+                textbox_left = shape_left + 0.3
+            else:
+                textbox_left = shape_left
+                new_top = top + 0.2
+            textBox(
+                left = textbox_left,
+                top = new_top-0.1,
+                width = 1.5,
+                height = 0.2,
+                shapes = shapes,
+                text = timeline_input.get(milestone_name+str(i))[5],
+                font_name = timeline_input.get("Milestone Properties")[0][0],
+                font_size = timeline_input.get("Milestone Properties")[0][1],
+                is_bold = timeline_input.get("Milestone Properties")[0][2],
+                is_italics = timeline_input.get("Milestone Properties")[0][3],
+                font_color = timeline_input.get("Milestone Properties")[1],
+                fill_color = timeline_input.get("Milestone Properties")[2],
+                text_align = timeline_input.get("Milestone Properties")[3]
+            )
+    return new_top-top
+
+
+# Function to create slide title
+def create_slide_title(shapes,timeline_input: dict, slide_title: str):
+    textBox(
+        top = 0.5,
+        left = 0.8,
+        width = 10,
+        height = 0.5,
+        text = slide_title,
+        shapes = shapes,
+        font_name = timeline_input.get('Title')[0][0],
+        font_size = int(timeline_input.get('Title')[0][1]),
+        is_bold = timeline_input.get('Title')[0][2],
+        is_italics = timeline_input.get('Title')[0][3],
+        font_color = timeline_input.get('Title')[1],
+        fill_color = timeline_input.get('Title')[2],
+        text_align = timeline_input.get('Title')[3]
+    )
+
+# Function to create legend
+def create_legend(shapes,shape_type_tl,shape_color_tl,table_top):
+    pass
+
+# Function to create timeline table
+def create_timeline_function(table, table_granularity, gantt_start_date, gantt_duration, timeline_input: dict):
+    if table_granularity=="Month":
+        simpleMonthlyTable(
+            table = table,
+            start_month = gantt_start_date,
+            no_of_months = int(gantt_duration),
+            font_name_year = timeline_input.get('Row 1 Properties')[0][0],
+            font_size_year = timeline_input.get('Row 1 Properties')[0][1],
+            is_bold_year = timeline_input.get('Row 1 Properties')[0][2],
+            is_italics_year = timeline_input.get('Row 1 Properties')[0][3],
+            font_color_year = timeline_input.get('Row 1 Properties')[1],
+            fill_color_year = timeline_input.get('Row 1 Properties')[2],
+            text_align_year = timeline_input.get('Row 1 Properties')[3],
+            font_name_month = timeline_input.get('Row 2 Properties')[0][0],
+            font_size_month = timeline_input.get('Row 2 Properties')[0][1],
+            is_bold_month = timeline_input.get('Row 2 Properties')[0][2],
+            is_italics_month = timeline_input.get('Row 2 Properties')[0][3],
+            font_color_month = timeline_input.get('Row 2 Properties')[1],
+            fill_color_month = timeline_input.get('Row 2 Properties')[2],
+            text_align_month = timeline_input.get('Row 2 Properties')[3],
+            )
+    elif table_granularity=="Quarter":
+        simpleQuarterlyTable(
+            table = table,
+            start_month = gantt_start_date,
+            no_of_months = int(gantt_duration),
+            font_name_year = timeline_input.get('Row 1 Properties')[0][0],
+            font_size_year = timeline_input.get('Row 1 Properties')[0][1],
+            is_bold_year = timeline_input.get('Row 1 Properties')[0][2],
+            is_italics_year = timeline_input.get('Row 1 Properties')[0][3],
+            font_color_year = timeline_input.get('Row 1 Properties')[1],
+            fill_color_year = timeline_input.get('Row 1 Properties')[2],
+            text_align_year = timeline_input.get('Row 1 Properties')[3],
+            font_name_month = timeline_input.get('Row 2 Properties')[0][0],
+            font_size_month = timeline_input.get('Row 2 Properties')[0][1],
+            is_bold_month = timeline_input.get('Row 2 Properties')[0][2],
+            is_italics_month = timeline_input.get('Row 2 Properties')[0][3],
+            font_color_month = timeline_input.get('Row 2 Properties')[1],
+            fill_color_month = timeline_input.get('Row 2 Properties')[2],
+            text_align_month = timeline_input.get('Row 2 Properties')[3],
+            )
+    else:
+        simpleSemiAnnualTable(
+            table = table,
+            start_month = gantt_start_date,
+            no_of_months = int(gantt_duration),
+            font_name_year = timeline_input.get('Row 1 Properties')[0][0],
+            font_size_year = timeline_input.get('Row 1 Properties')[0][1],
+            is_bold_year = timeline_input.get('Row 1 Properties')[0][2],
+            is_italics_year = timeline_input.get('Row 1 Properties')[0][3],
+            font_color_year = timeline_input.get('Row 1 Properties')[1],
+            fill_color_year = timeline_input.get('Row 1 Properties')[2],
+            text_align_year = timeline_input.get('Row 1 Properties')[3],
+            font_name_month = timeline_input.get('Row 2 Properties')[0][0],
+            font_size_month = timeline_input.get('Row 2 Properties')[0][1],
+            is_bold_month = timeline_input.get('Row 2 Properties')[0][2],
+            is_italics_month = timeline_input.get('Row 2 Properties')[0][3],
+            font_color_month = timeline_input.get('Row 2 Properties')[1],
+            fill_color_month = timeline_input.get('Row 2 Properties')[2],
+            text_align_month = timeline_input.get('Row 2 Properties')[3],
+            )
 
 # Function to align textboxes based on the selection
 def set_textbox_shape_alignment(align: str, shape_left: float, shape_width: float):

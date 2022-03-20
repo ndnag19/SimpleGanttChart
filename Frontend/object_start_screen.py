@@ -179,6 +179,7 @@ class StartScreenFrame():
         try:
             self.ganttPrs = pptx.Presentation(prs_path)
             self.slide_layout_list = slideLayoutList(self.ganttPrs)
+            self.controller.myTimelineProperties.create_slide_layout_list(self.slide_layout_list)
         except PermissionError:
             showerror("Failed to Load Presenation",
             "Please make sure the presentation you are trying to open is not currently in use")

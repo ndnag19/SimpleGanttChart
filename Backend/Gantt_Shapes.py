@@ -1,5 +1,4 @@
 #imports for the functions defined here
-from ast import Try
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
 from pptx.enum.shapes import MSO_SHAPE
@@ -47,7 +46,7 @@ outline_color=None,outline_width=None,text_align="Left",task_level=1):
         try:
             textbox.line.color.rgb = RGBColor(outline_color_r,outline_color_g,outline_color_b)
         except:
-            print("Enter a valid hex color code. Ex. #FFFF00")
+            print("Enter a valid hex color code. Ex. #FFFFFF")
     
     if outline_width!=None:
         textbox.line.width = Pt(outline_width)

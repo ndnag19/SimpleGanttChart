@@ -2,19 +2,18 @@
 from pathlib import Path
 from tkinter import *
 from tkinter import Tk, Canvas, Frame, colorchooser, PhotoImage, Entry, Label
-from tkinter.messagebox import showinfo,showerror,showwarning
+from tkinter.messagebox import showinfo
 from tkinter import ttk
-from font_chooser import FontDialog
-from ttkwidgets.frames import Tooltip
-from pptx import Presentation
+# from ttkwidgets.frames import Tooltip
 import PIL.Image
 import PIL.ImageTk
 import PIL.ImageOps
-from strings import *
-from commands import showFrame,slideLayoutList
+from Frontend.strings import *
+from Frontend.commands import showFrame
+from Frontend.font_chooser import FontDialog
 
 class TimelinePropertiesFrame():
-    def __init__(self, root: Tk,controller,slide_layout_list):
+    def __init__(self, root: Tk,controller):
         super().__init__()
 
         # Set all the default values
@@ -168,13 +167,6 @@ class TimelinePropertiesFrame():
         text="Check to create milestones in timeline",variable=self.create_milestone_checkbutton_selection,width=65)
         self.canvas.create_window(500,320,anchor="nw",window=self.create_milestone_checkbutton)
 
-        # Create Slide-Layout Dropdown
-        self.slide_layout_selection = StringVar()
-        self.slide_layout_dropdown = ttk.Combobox(self.canvas,textvariable=self.slide_layout_selection, values=slide_layout_list, width=40)
-        self.slide_layout_dropdown.current(6)
-        self.slide_layout_dropdown.state(['readonly'])
-        self.canvas.create_window(218,348,anchor="nw",window=self.slide_layout_dropdown)
-
         self.canvas.create_text(68,350,anchor="nw",text="Select Slide Layout\t:",fill="#008080",font=("Roboto",14 * -1,))
         
         # Timeline Granularity Dropdown
@@ -233,6 +225,16 @@ class TimelinePropertiesFrame():
         #     headertext="Select Font Properties:",
         #     text="Click button to select font properties for the object"
         # )
+
+    # Slide Layout List
+    def create_slide_layout_list(self,slide_layout_list: list):
+        # Create Slide-Layout Dropdown
+        self.slide_layout_selection = StringVar()
+        self.slide_layout_dropdown = ttk.Combobox(self.canvas,textvariable=self.slide_layout_selection, values=slide_layout_list, width=40)
+        self.slide_layout_dropdown.current(6)
+        self.slide_layout_dropdown.state(['readonly'])
+        self.canvas.create_window(218,348,anchor="nw",window=self.slide_layout_dropdown)
+   
     # Function to package all the collected inputs
     def __selected_inputs(self)-> dict:
         timeline_properties_dict = {
@@ -244,7 +246,7 @@ class TimelinePropertiesFrame():
             "Title" : [self.list_title_font_selected,self.str_title_font_color_selected,
             self.str_title_fill_color_selected,self.title_text_align_selection.get()],
             "Layout" : [self.slide_layout_selection.get()],
-            "Timline" : [self.create_timeline_checkbutton_selection.get()],
+            "Timeline" : [self.create_timeline_checkbutton_selection.get()],
             "Milestone" : [self.create_milestone_checkbutton_selection.get()],
             "Milestone Properties" : [self.list_milestone_font_selected,self.str_milestone_font_color_selected,
             self.str_milestone_fill_color_selected,self.milestone_text_align_selection.get()],
