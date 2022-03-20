@@ -150,6 +150,8 @@ font_color_tl: list,font_size_tl: list, shape_height_tl: list, shape_height_metr
                     gantt_start_date,
                     width_per_col)
             task_top = table_top+table_height*table_rows + additional_height
+        else:
+            task_top = table_top+table_height*table_rows-0.2
     else:
         task_top = table_top+table_height*table_rows-0.2
     # Create the main loop to do all the operation
@@ -174,6 +176,8 @@ font_color_tl: list,font_size_tl: list, shape_height_tl: list, shape_height_metr
                     gantt_start_date,
                     width_per_col)
                     task_top = table_top+table_height*table_rows + additional_height
+                else:
+                    task_top = table_top+table_height*table_rows-0.2
             else:
                 task_top = table_top+table_height*table_rows-0.2
         if gantt_data['task_level'][i]==1:
