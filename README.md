@@ -1,6 +1,6 @@
 ### Introduction
 
-SimpleGanttChart is a Python GUI tool built to automate creation of beautiful Gantt Chart Slides in PowerPoint using PowerPoint Autoshapes. 
+SimpleGanttChart is a Python GUI tool built to automate creation of beautiful Gantt Chart Slides in PowerPoint using PowerPoint Autoshapes. SimpleGanttChart was created to automate a boring task I used to do in my first job. I hope you can automate this boring task by using this simple tool.
 
 ### Using SimpleGanttChart
 
@@ -11,6 +11,13 @@ Gantt Charts are excellent for project management. A wide range of project manag
 3. Choose your shape and font properties.
 
 And that's it!
+
+### How to install the application?
+
+Windows users can directly download the latest .exe file by [using this link](https://github.com/ndnag19/SimpleGanttChart/releases/download/v2.0/SimpleGanttChart.-.setup.exe).
+SimpleGanttChart installs like any other windows application. Follow the instructs on screen to install and run the software.
+
+For users using other operating systems. The setup file is on the way. In the meantime you can follow next few sections instructions to get SimpleGanttChart running.
 
 ### Requirements and Installations
 
