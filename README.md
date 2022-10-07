@@ -14,8 +14,7 @@ And that's it!
 
 ### How to install the application?
 
-Windows users can directly download the latest .exe file by [using this link](https://github.com/ndnag19/SimpleGanttChart/releases/download/v2.0/SimpleGanttChart.-.setup.exe).
-SimpleGanttChart installs like any other windows application. Follow the instructs on screen to install and run the software.
+Windows users can directly download the latest .exe file by [using this link](https://github.com/ndnag19/SimpleGanttChart/releases/download/v2.1/SimpleGanttChart_setup.exe)
 
 For users using other operating systems. The setup file is on the way. In the meantime you can follow next few sections instructions to get SimpleGanttChart running.
 
